@@ -99,4 +99,20 @@ class BenefitTypeTest {
 
         assertThat(possibleBenefits.size()).isEqualTo(0);
     }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                    "2022:12:4", "2022:12:9", "2022:12:19", "2024:12:23", "2024:12:26",
+                    "2023:11:3", "2023:9:10", "2023:1:17", "2023:2:25", "2023:3:31"
+            },
+            delimiter = ':'
+    )
+    @DisplayName("2023년 12월이 아니면 아무것도 적용되지 않음")
+    void test12(int year, int month, int dayOfMonth) {
+        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(1000000, LocalDate.of(year, month, dayOfMonth));
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+
+        assertThat(possibleBenefits.size()).isEqualTo(0);
+    }
 }
