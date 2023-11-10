@@ -89,4 +89,14 @@ class BenefitTypeTest {
 
         assertThat(possibleBenefits.contains(BenefitType.GIFT)).isEqualTo(canGetGift);
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {"1", "2", "10", "23", "9999"})
+    @DisplayName("가격이 기준치(10000원) 미만이면 아무것도 적용되지 않음")
+    void priceUnderMinPrice(int totalPrice) {
+        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(totalPrice, LocalDate.of(2023, 12, 25));
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+
+        assertThat(possibleBenefits.size()).isEqualTo(0);
+    }
 }
