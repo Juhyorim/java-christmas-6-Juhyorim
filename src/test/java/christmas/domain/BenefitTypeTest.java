@@ -80,4 +80,22 @@ class BenefitTypeTest {
 
         assertThat(possibleBenefits.contains(BenefitType.SPECIAL)).isEqualTo(isContain);
     }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                    "5000:false", "10000:false", "20000:false", "119999:false",
+                    "120000:true", "120001:true", "130000:true"
+            },
+            delimiter = ':'
+    )
+    @DisplayName("증정 이벤트 적용여부 확인")
+    void gift(int totalPrice, boolean canGetGift) {
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
+                totalPrice,
+                LocalDate.of(2023, 12, 25)
+        );
+
+        assertThat(possibleBenefits.contains(BenefitType.GIFT)).isEqualTo(canGetGift);
+    }
 }
