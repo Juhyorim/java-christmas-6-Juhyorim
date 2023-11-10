@@ -2,6 +2,7 @@ package christmas.domain;
 
 import christmas.dto.BenefitCheckDto;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,6 +88,10 @@ public enum BenefitType {
             return benefits;
         }
 
+        if (is2023December(benefitCheckDto.getDate())) {
+            return benefits;
+        }
+
         for (BenefitType benefitType : values()) {
             if (benefitType.canApply(benefitCheckDto)) {
                 benefits.add(benefitType);
@@ -94,6 +99,14 @@ public enum BenefitType {
         }
 
         return benefits;
+    }
+
+    private static boolean is2023December(LocalDate date) {
+        if (date.getYear() == 2023 && date.getMonth() == Month.DECEMBER) {
+            return true;
+        }
+
+        return false;
     }
 
     private static boolean isUnderMinimumAmount(int totalPrice) {
