@@ -62,4 +62,22 @@ class BenefitTypeTest {
 
         assertThat(possibleBenefits.contains(BenefitType.WEEKEND)).isEqualTo(isContain);
     }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                    "2023:12:4:false", "2023:12:9:false", "2023:12:19:false", "2023:12:23:false", "2023:12:26:false",
+                    "2023:12:3:true", "2023:12:10:true", "2023:12:17:true", "2023:12:25:true", "2023:12:31:true"
+            },
+            delimiter = ':'
+    )
+    @DisplayName("특별 할인 적용여부 확인")
+    void specialDiscount(int year, int month, int dayOfMonth, boolean isContain) {
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
+                10000,
+                LocalDate.of(year, month, dayOfMonth)
+        );
+
+        assertThat(possibleBenefits.contains(BenefitType.SPECIAL)).isEqualTo(isContain);
+    }
 }
