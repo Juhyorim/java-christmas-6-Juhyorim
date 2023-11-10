@@ -2,6 +2,7 @@ package christmas.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.dto.BenefitCheckDto;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +20,8 @@ class BenefitTypeTest {
     )
     @DisplayName("크리스마스 디데이 적용여부 확인")
     void christmasDDay(int year, int month, int dayOfMonth, boolean isContain) {
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
-                10000,
-                LocalDate.of(year, month, dayOfMonth)
-        );
+        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
 
         assertThat(possibleBenefits.contains(BenefitType.CHRISTMAS_D_DAY)).isEqualTo(isContain);
     }
@@ -37,10 +36,8 @@ class BenefitTypeTest {
     )
     @DisplayName("평일할인 적용여부 확인")
     void weekday(int year, int month, int dayOfMonth, boolean isWeekDay) {
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
-                10000,
-                LocalDate.of(year, month, dayOfMonth)
-        );
+        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
 
         assertThat(possibleBenefits.contains(BenefitType.WEEK_DAY)).isEqualTo(isWeekDay);
     }
@@ -55,10 +52,8 @@ class BenefitTypeTest {
     )
     @DisplayName("주말할인 적용여부 확인")
     void weekend(int year, int month, int dayOfMonth, boolean isWeekend) {
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
-                10000,
-                LocalDate.of(year, month, dayOfMonth)
-        );
+        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
 
         assertThat(possibleBenefits.contains(BenefitType.WEEKEND)).isEqualTo(isWeekend);
     }
@@ -73,10 +68,8 @@ class BenefitTypeTest {
     )
     @DisplayName("특별 할인 적용여부 확인")
     void specialDiscount(int year, int month, int dayOfMonth, boolean isContain) {
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
-                10000,
-                LocalDate.of(year, month, dayOfMonth)
-        );
+        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
 
         assertThat(possibleBenefits.contains(BenefitType.SPECIAL)).isEqualTo(isContain);
     }
@@ -91,10 +84,8 @@ class BenefitTypeTest {
     )
     @DisplayName("증정 이벤트 적용여부 확인")
     void gift(int totalPrice, boolean canGetGift) {
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
-                totalPrice,
-                LocalDate.of(2023, 12, 25)
-        );
+        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(totalPrice, LocalDate.of(2023, 12, 25));
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
 
         assertThat(possibleBenefits.contains(BenefitType.GIFT)).isEqualTo(canGetGift);
     }
