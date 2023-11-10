@@ -12,9 +12,11 @@ public enum BenefitType {
     SPECIAL((benefitCheckDto) -> isSpecialDay(benefitCheckDto)),
     GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto));
 
-    public static final int MINIMUM_AMOUNT = 10000;
-    public static final int GIFT_WORTHY_PRICE = 120000;
-    public static final List<Integer> SPECIAL_DAYS = List.of(3, 10, 17, 24, 25, 31);
+    private static final int MINIMUM_AMOUNT = 10000;
+    private static final int GIFT_WORTHY_PRICE = 120000;
+    private static final List<Integer> SPECIAL_DAYS = List.of(3, 10, 17, 24, 25, 31);
+    private static final LocalDate CHRISTMAS_DATE = LocalDate.of(2023, 12, 25);
+    private static final LocalDate FIRST_DATE = LocalDate.of(2023, 12, 1);
 
     private VerifyBenefit verify;
 
@@ -27,10 +29,7 @@ public enum BenefitType {
     }
 
     private static boolean isChristmasSeason(BenefitCheckDto benefitCheckDto) {
-        LocalDate christmas = LocalDate.of(2023, 12, 25);
-        LocalDate firstDay = LocalDate.of(2023, 12, 1);
-
-        if (isBetween(firstDay, christmas, benefitCheckDto.getDate())) {
+        if (isBetween(FIRST_DATE, CHRISTMAS_DATE, benefitCheckDto.getDate())) {
             return true;
         }
 
