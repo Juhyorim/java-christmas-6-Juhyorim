@@ -1,7 +1,7 @@
 package christmas.domain;
 
-import java.time.LocalDate;
+import christmas.dto.BenefitCheckDto;
 
 public interface VerifyBenefit {
-    boolean check(int totalPrice, LocalDate date);
+    boolean check(BenefitCheckDto benefitCheckDto);
 }

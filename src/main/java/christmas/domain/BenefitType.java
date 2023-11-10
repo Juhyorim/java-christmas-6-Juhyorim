@@ -1,15 +1,16 @@
 package christmas.domain;
 
+import christmas.dto.BenefitCheckDto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public enum BenefitType {
-    CHRISTMAS_D_DAY((totalPrice, date) -> isChristmasSeason(date)),
-    WEEK_DAY((totalPrice, date) -> isWeekDay(date)),
-    WEEKEND((totalPrice, date) -> isWeekend(date)),
-    SPECIAL((totalPrice, date) -> isSpecialDay(date)),
-    GIFT((totalPrice, date) -> canGetGift(totalPrice));
+    CHRISTMAS_D_DAY((benefitCheckDto) -> isChristmasSeason(benefitCheckDto)),
+    WEEK_DAY((benefitCheckDto) -> isWeekDay(benefitCheckDto)),
+    WEEKEND((benefitCheckDto) -> isWeekend(benefitCheckDto)),
+    SPECIAL((benefitCheckDto) -> isSpecialDay(benefitCheckDto)),
+    GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto));
 
     public static final int MINIMUM_AMOUNT = 10000;
     public static final int GIFT_WORTHY_PRICE = 120000;
@@ -21,15 +22,15 @@ public enum BenefitType {
         this.verify = verify;
     }
 
-    private boolean canApply(int totalPrice, LocalDate date) {
-        return verify.check(totalPrice, date);
+    private boolean canApply(BenefitCheckDto benefitCheckDto) {
+        return verify.check(benefitCheckDto);
     }
 
-    private static boolean isChristmasSeason(LocalDate date) {
+    private static boolean isChristmasSeason(BenefitCheckDto benefitCheckDto) {
         LocalDate christmas = LocalDate.of(2023, 12, 25);
         LocalDate firstDay = LocalDate.of(2023, 12, 1);
 
-        if (isBetween(firstDay, christmas, date)) {
+        if (isBetween(firstDay, christmas, benefitCheckDto.getDate())) {
             return true;
         }
 
@@ -48,47 +49,47 @@ public enum BenefitType {
         return true;
     }
 
-    private static boolean isWeekDay(LocalDate date) {
-        if (WeekManager.isWeekday(date.getDayOfWeek())) {
+    private static boolean isWeekDay(BenefitCheckDto benefitCheckDto) {
+        if (WeekManager.isWeekday(benefitCheckDto.getDate().getDayOfWeek())) {
             return true;
         }
 
         return false;
     }
 
-    private static boolean isWeekend(LocalDate date) {
-        if (isWeekDay(date)) {
+    private static boolean isWeekend(BenefitCheckDto benefitCheckDto) {
+        if (isWeekDay(benefitCheckDto)) {
             return false;
         }
 
         return true;
     }
 
-    private static boolean isSpecialDay(LocalDate date) {
-        if (SPECIAL_DAYS.contains(date.getDayOfMonth())) {
+    private static boolean isSpecialDay(BenefitCheckDto benefitCheckDto) {
+        if (SPECIAL_DAYS.contains(benefitCheckDto.getDate().getDayOfMonth())) {
             return true;
         }
 
         return false;
     }
 
-    private static boolean canGetGift(int totalPrice) {
-        if (totalPrice < GIFT_WORTHY_PRICE) {
+    private static boolean canGetGift(BenefitCheckDto benefitCheckDto) {
+        if (benefitCheckDto.getTotalPrice() < GIFT_WORTHY_PRICE) {
             return false;
         }
 
         return true;
     }
 
-    public static List<BenefitType> getPossibleBenefits(int totalPrice, LocalDate date) {
+    public static List<BenefitType> getPossibleBenefits(BenefitCheckDto benefitCheckDto) {
         List<BenefitType> benefits = new ArrayList<>();
 
-        if (isUnderMinimumAmount(totalPrice)) {
+        if (isUnderMinimumAmount(benefitCheckDto.getTotalPrice())) {
             return benefits;
         }
 
         for (BenefitType benefitType : values()) {
-            if (benefitType.canApply(totalPrice, date)) {
+            if (benefitType.canApply(benefitCheckDto)) {
                 benefits.add(benefitType);
             }
         }
