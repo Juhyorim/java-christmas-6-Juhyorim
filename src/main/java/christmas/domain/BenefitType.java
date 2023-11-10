@@ -8,10 +8,11 @@ public enum BenefitType {
     CHRISTMAS_D_DAY((totalPrice, date) -> isChristmasSeason(date)),
     WEEK_DAY((totalPrice, date) -> isWeekDay(date)),
     WEEKEND((totalPrice, date) -> isWeekend(date)),
-    SPECIAL((totalPrice, date) -> isSpecialDay()),
+    SPECIAL((totalPrice, date) -> isSpecialDay(date)),
     GIFT((totalPrice, date) -> canGetGift());
 
     public static final int MINIMUM_AMOUNT = 10000;
+    public static final List<Integer> SPECIAL_DAYS = List.of(3, 10, 17, 24, 25, 31);
     private VerifyBenefit verify;
 
     BenefitType(VerifyBenefit verify) {
@@ -61,7 +62,11 @@ public enum BenefitType {
         return true;
     }
 
-    private static boolean isSpecialDay() {
+    private static boolean isSpecialDay(LocalDate date) {
+        if (SPECIAL_DAYS.contains(date.getDayOfMonth())) {
+            return true;
+        }
+
         return false;
     }
 
