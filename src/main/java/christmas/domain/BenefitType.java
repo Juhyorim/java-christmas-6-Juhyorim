@@ -9,10 +9,12 @@ public enum BenefitType {
     WEEK_DAY((totalPrice, date) -> isWeekDay(date)),
     WEEKEND((totalPrice, date) -> isWeekend(date)),
     SPECIAL((totalPrice, date) -> isSpecialDay(date)),
-    GIFT((totalPrice, date) -> canGetGift());
+    GIFT((totalPrice, date) -> canGetGift(totalPrice));
 
     public static final int MINIMUM_AMOUNT = 10000;
+    public static final int GIFT_WORTHY_PRICE = 120000;
     public static final List<Integer> SPECIAL_DAYS = List.of(3, 10, 17, 24, 25, 31);
+
     private VerifyBenefit verify;
 
     BenefitType(VerifyBenefit verify) {
@@ -70,8 +72,12 @@ public enum BenefitType {
         return false;
     }
 
-    private static boolean canGetGift() {
-        return false;
+    private static boolean canGetGift(int totalPrice) {
+        if (totalPrice < GIFT_WORTHY_PRICE) {
+            return false;
+        }
+
+        return true;
     }
 
     public static List<BenefitType> getPossibleBenefits(int totalPrice, LocalDate date) {
