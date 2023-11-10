@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum BenefitType {
     CHRISTMAS_D_DAY((totalPrice, date) -> isChristmasSeason(date)),
-    WEEK_DAY((totalPrice, date) -> isWeekDay()),
+    WEEK_DAY((totalPrice, date) -> isWeekDay(date)),
     WEEKEND((totalPrice, date) -> isWeekend()),
     SPECIAL((totalPrice, date) -> isSpecialDay()),
     GIFT((totalPrice, date) -> canGetGift());
@@ -45,7 +45,11 @@ public enum BenefitType {
         return true;
     }
 
-    private static boolean isWeekDay() {
+    private static boolean isWeekDay(LocalDate date) {
+        if (WeekManager.isWeekday(date.getDayOfWeek())) {
+            return true;
+        }
+
         return false;
     }
 
