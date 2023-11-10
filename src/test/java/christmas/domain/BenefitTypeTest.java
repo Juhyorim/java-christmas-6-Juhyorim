@@ -26,4 +26,22 @@ class BenefitTypeTest {
 
         assertThat(possibleBenefits.contains(BenefitType.CHRISTMAS_D_DAY)).isEqualTo(isContain);
     }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                    "2023:12:3:true", "2023:12:4:true", "2023:12:7:true", "2023:12:10:true", "2023:12:14:true",
+                    "2023:12:1:false", "2023:12:9:false",  "2023:12:15:false", "2023:12:23:false", "2023:12:30:false"
+            },
+            delimiter = ':'
+    )
+    @DisplayName("평일할인 적용여부 확인")
+    void weekDay(int year, int month, int dayOfMonth, boolean isContain) {
+        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
+                10000,
+                LocalDate.of(year, month, dayOfMonth)
+        );
+
+        assertThat(possibleBenefits.contains(BenefitType.WEEK_DAY)).isEqualTo(isContain);
+    }
 }
