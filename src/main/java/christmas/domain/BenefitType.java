@@ -88,7 +88,7 @@ public enum BenefitType {
             return benefits;
         }
 
-        if (is2023December(benefitCheckDto.getDate())) {
+        if (is2023December(benefitCheckDto.getDate()) == false) {
             return benefits;
         }
 
