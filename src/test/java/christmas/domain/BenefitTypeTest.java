@@ -36,13 +36,13 @@ class BenefitTypeTest {
             delimiter = ':'
     )
     @DisplayName("평일할인 적용여부 확인")
-    void weekday(int year, int month, int dayOfMonth, boolean isContain) {
+    void weekday(int year, int month, int dayOfMonth, boolean isWeekDay) {
         List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
                 10000,
                 LocalDate.of(year, month, dayOfMonth)
         );
 
-        assertThat(possibleBenefits.contains(BenefitType.WEEK_DAY)).isEqualTo(isContain);
+        assertThat(possibleBenefits.contains(BenefitType.WEEK_DAY)).isEqualTo(isWeekDay);
     }
 
     @ParameterizedTest
@@ -54,13 +54,13 @@ class BenefitTypeTest {
             delimiter = ':'
     )
     @DisplayName("주말할인 적용여부 확인")
-    void weekend(int year, int month, int dayOfMonth, boolean isContain) {
+    void weekend(int year, int month, int dayOfMonth, boolean isWeekend) {
         List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(
                 10000,
                 LocalDate.of(year, month, dayOfMonth)
         );
 
-        assertThat(possibleBenefits.contains(BenefitType.WEEKEND)).isEqualTo(isContain);
+        assertThat(possibleBenefits.contains(BenefitType.WEEKEND)).isEqualTo(isWeekend);
     }
 
     @ParameterizedTest
