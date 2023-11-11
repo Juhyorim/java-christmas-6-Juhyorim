@@ -47,7 +47,7 @@ class DiscountCalculatorTest {
 
     @ParameterizedTest
     @CsvSource(value = {"1", "2", "3", "10", "20"})
-    @DisplayName("평일 할인 적용 테스트")
+    @DisplayName("평일 할인만 적용 테스트")
     void weekDay(int count) {
         //given
         DiscountCalculator discountCalculator = new DiscountCalculator();
@@ -60,5 +60,22 @@ class DiscountCalculatorTest {
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.ICE_CREAM)).isEqualTo(2023 * count);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"1", "2", "3", "10", "20"})
+    @DisplayName("주말 할인만 적용 테스트")
+    void weekendBenefitOnly(int count) {
+        //given
+        DiscountCalculator discountCalculator = new DiscountCalculator();
+        OrderForm orderForm = new OrderForm(LocalDate.of(2023, 12, 8));
+
+        //when
+        orderForm.addMenu(Menu.T_BONE_STEAK, count);
+        List<BenefitType> benefits = List.of(BenefitType.WEEKEND);
+        DiscountedMenu discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+
+        //then
+        Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.T_BONE_STEAK)).isEqualTo(2023 * count);
     }
 }
