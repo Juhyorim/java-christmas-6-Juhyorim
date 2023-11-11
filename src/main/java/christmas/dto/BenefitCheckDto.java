@@ -1,5 +1,6 @@
 package christmas.dto;
 
+import christmas.domain.OrderForm;
 import java.time.LocalDate;
 
 public class BenefitCheckDto {
@@ -9,6 +10,10 @@ public class BenefitCheckDto {
     public BenefitCheckDto(int totalPrice, LocalDate date) {
         this.totalPrice = totalPrice;
         this.date = date;
+    }
+
+    public static BenefitCheckDto make(OrderForm orderForm) {
+        return new BenefitCheckDto(orderForm.getTotalPrice(), orderForm.getOrderDate());
     }
 
     public int getTotalPrice() {
