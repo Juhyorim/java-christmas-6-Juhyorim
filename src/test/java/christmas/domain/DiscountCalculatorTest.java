@@ -78,4 +78,20 @@ class DiscountCalculatorTest {
         //then
         Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.T_BONE_STEAK)).isEqualTo(2023 * count);
     }
+
+    @Test
+    @DisplayName("스패셜 할인만 적용 테스트")
+    void specialBenefitOnly() {
+        //given
+        DiscountCalculator discountCalculator = new DiscountCalculator();
+        OrderForm orderForm = new OrderForm(LocalDate.of(2023, 12, 10));
+
+        //when
+        orderForm.addMenu(Menu.T_BONE_STEAK, 2);
+        List<BenefitType> benefits = List.of(BenefitType.SPECIAL);
+        DiscountedMenu discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+
+        //then
+        Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
+    }
 }
