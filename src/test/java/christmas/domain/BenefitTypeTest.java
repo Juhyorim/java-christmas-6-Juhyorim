@@ -2,6 +2,7 @@ package christmas.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import christmas.domain.benefit.BenefitType;
 import christmas.dto.BenefitCheckDto;
 import java.time.LocalDate;
 import java.util.List;

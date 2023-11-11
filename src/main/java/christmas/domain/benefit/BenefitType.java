@@ -1,5 +1,10 @@
-package christmas.domain;
+package christmas.domain.benefit;
 
+import christmas.domain.Menu;
+import christmas.domain.MenuGroup;
+import christmas.domain.OrderForm;
+import christmas.domain.OrderedMenu;
+import christmas.util.WeekManager;
 import christmas.dto.BenefitCheckDto;
 import christmas.dto.DiscountedMenu;
 import java.time.LocalDate;
