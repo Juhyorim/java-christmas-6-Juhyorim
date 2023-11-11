@@ -23,4 +23,13 @@ class EventDayValidatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(EventDayValidator.NUMERIC_REQUIRED);
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {"0", "32 ", "33"})
+    @DisplayName("1일과 31일 사이가 아닐 때 예외")
+    void notInEventPeriodException(String dayOfMonth) {
+        assertThatThrownBy(() -> EventDayValidator.validate(dayOfMonth))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(EventDayValidator.NOT_IN_EVENT_PERIOD);
+    }
 }
