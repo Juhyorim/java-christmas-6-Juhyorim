@@ -2,6 +2,6 @@ package christmas.domain;
 
 import christmas.dto.BenefitCheckDto;
 
-public interface VerifyBenefit {
+public interface BenefitVerification {
     boolean check(BenefitCheckDto benefitCheckDto);
 }

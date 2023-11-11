@@ -1,32 +1,41 @@
 package christmas.domain;
 
 import christmas.dto.BenefitCheckDto;
+import christmas.dto.DiscountedMenu;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
 public enum BenefitType {
-    CHRISTMAS_D_DAY((benefitCheckDto) -> isChristmasSeason(benefitCheckDto)),
-    WEEK_DAY((benefitCheckDto) -> isWeekDay(benefitCheckDto)),
-    WEEKEND((benefitCheckDto) -> isWeekend(benefitCheckDto)),
-    SPECIAL((benefitCheckDto) -> isSpecialDay(benefitCheckDto)),
-    GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto));
+    CHRISTMAS_D_DAY(
+            (benefitCheckDto) -> isChristmasSeason(benefitCheckDto),
+            (orderForm) -> applyChristmasDDayDiscount(orderForm)
+    ),
+    WEEK_DAY((benefitCheckDto) -> isWeekDay(benefitCheckDto), (orderForm) -> new DiscountedMenu()),
+    WEEKEND((benefitCheckDto) -> isWeekend(benefitCheckDto), (orderForm) -> new DiscountedMenu()),
+    SPECIAL((benefitCheckDto) -> isSpecialDay(benefitCheckDto), (orderForm) -> new DiscountedMenu()),
+    GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto), (orderForm) -> new DiscountedMenu());
 
     private static final int MINIMUM_AMOUNT = 10000;
     private static final int GIFT_WORTHY_PRICE = 120000;
     private static final List<Integer> SPECIAL_DAYS = List.of(3, 10, 17, 24, 25, 31);
     private static final LocalDate CHRISTMAS_DATE = LocalDate.of(2023, 12, 25);
     private static final LocalDate FIRST_DATE = LocalDate.of(2023, 12, 1);
+    private BenefitVerification verify;
+    private BenefitApplier benefitApplier;
 
-    private VerifyBenefit verify;
-
-    BenefitType(VerifyBenefit verify) {
+    BenefitType(BenefitVerification verify, BenefitApplier benefitApplier) {
         this.verify = verify;
+        this.benefitApplier = benefitApplier;
     }
 
-    private boolean canApply(BenefitCheckDto benefitCheckDto) {
-        return verify.check(benefitCheckDto);
+    private static DiscountedMenu applyChristmasDDayDiscount(OrderForm orderForm) {
+        DiscountedMenu discountedMenu = new DiscountedMenu();
+        int discountTotalPrice = 1000 + (orderForm.getOrderDate().getDayOfMonth() - 1) * 100;
+        discountedMenu.discountTotalPrice(discountTotalPrice);
+
+        return discountedMenu;
     }
 
     private static boolean isChristmasSeason(BenefitCheckDto benefitCheckDto) {
@@ -111,5 +120,13 @@ public enum BenefitType {
 
     private static boolean isUnderMinimumAmount(int totalPrice) {
         return totalPrice < MINIMUM_AMOUNT;
+    }
+
+    public static DiscountedMenu apply(BenefitType benefitType, OrderForm orderForm) {
+        return benefitType.benefitApplier.apply(orderForm);
+    }
+
+    private boolean canApply(BenefitCheckDto benefitCheckDto) {
+        return verify.check(benefitCheckDto);
     }
 }
