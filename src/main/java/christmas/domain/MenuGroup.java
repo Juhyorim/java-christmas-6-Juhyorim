@@ -15,12 +15,16 @@ public enum MenuGroup {
     }
 
     public static MenuGroup findMenuGroup(Menu menu) {
-        for (MenuGroup menuGroup: values()) {
+        for (MenuGroup menuGroup : values()) {
             if (menuGroup.menus.contains(menu)) {
                 return menuGroup;
             }
         }
 
         throw new IllegalArgumentException("[ERROR] 메뉴에 해당하는 그룹이 없습니다");
+    }
+
+    public static boolean isInGroup(Menu menu, MenuGroup menuGroup) {
+        return menuGroup.menus.contains(menu);
     }
 }
