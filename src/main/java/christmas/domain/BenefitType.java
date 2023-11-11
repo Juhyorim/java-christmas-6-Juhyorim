@@ -20,7 +20,10 @@ public enum BenefitType {
             (benefitCheckDto) -> isWeekend(benefitCheckDto),
             (orderForm) -> applyWeekendDiscount(orderForm)
     ),
-    SPECIAL((benefitCheckDto) -> isSpecialDay(benefitCheckDto), (orderForm) -> new DiscountedMenu()),
+    SPECIAL(
+            (benefitCheckDto) -> isSpecialDay(benefitCheckDto),
+            (orderForm) -> applySpecialDiscount())
+    ,
     GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto), (orderForm) -> new DiscountedMenu());
 
     private static final int MINIMUM_AMOUNT = 10000;
@@ -30,6 +33,7 @@ public enum BenefitType {
     private static final LocalDate FIRST_DATE = LocalDate.of(2023, 12, 1);
     public static final int WEEK_DAY_DISCOUNT_PRICE = 2023;
     public static final int WEEKEND_DISCOUNT_PRICE = 2023;
+    public static final int SPECIAL_DISCOUNT_PRICE = 1000;
     private BenefitVerification verify;
     private BenefitApplier benefitApplier;
 
@@ -66,6 +70,13 @@ public enum BenefitType {
                 discountedMenu.discountPrice(menu, WEEKEND_DISCOUNT_PRICE, orderedMenu.getCount(menu));
             }
         }
+
+        return discountedMenu;
+    }
+
+    private static DiscountedMenu applySpecialDiscount() {
+        DiscountedMenu discountedMenu = new DiscountedMenu();
+        discountedMenu.discountTotalPrice(SPECIAL_DISCOUNT_PRICE);
 
         return discountedMenu;
     }
