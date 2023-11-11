@@ -6,7 +6,7 @@ import christmas.domain.OrderForm;
 import christmas.domain.OrderedMenu;
 import christmas.util.WeekManager;
 import christmas.dto.BenefitCheckDto;
-import christmas.dto.DiscountedMenu;
+import christmas.dto.BeneficialMenus;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -27,9 +27,8 @@ public enum BenefitType {
     ),
     SPECIAL(
             (benefitCheckDto) -> isSpecialDay(benefitCheckDto),
-            (orderForm) -> applySpecialDiscount())
-    ,
-    GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto), (orderForm) -> new DiscountedMenu());
+            (orderForm) -> applySpecialDiscount()),
+    GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto), (orderForm) -> applyGiftBenefit());
 
     private static final int MINIMUM_AMOUNT = 10000;
     private static final int GIFT_WORTHY_PRICE = 120000;
@@ -47,16 +46,16 @@ public enum BenefitType {
         this.benefitApplier = benefitApplier;
     }
 
-    private static DiscountedMenu applyChristmasDDayDiscount(OrderForm orderForm) {
-        DiscountedMenu discountedMenu = new DiscountedMenu();
+    private static BeneficialMenus applyChristmasDDayDiscount(OrderForm orderForm) {
+        BeneficialMenus discountedMenu = new BeneficialMenus();
         int discountTotalPrice = 1000 + (orderForm.getOrderDate().getDayOfMonth() - 1) * 100;
         discountedMenu.discountTotalPrice(discountTotalPrice);
 
         return discountedMenu;
     }
 
-    private static DiscountedMenu applyWeekdayDiscount(OrderForm orderForm) {
-        DiscountedMenu discountedMenu = new DiscountedMenu();
+    private static BeneficialMenus applyWeekdayDiscount(OrderForm orderForm) {
+        BeneficialMenus discountedMenu = new BeneficialMenus();
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             if (MenuGroup.isInGroup(menu, MenuGroup.DESSERT)) {
@@ -67,8 +66,8 @@ public enum BenefitType {
         return discountedMenu;
     }
 
-    private static DiscountedMenu applyWeekendDiscount(OrderForm orderForm) {
-        DiscountedMenu discountedMenu = new DiscountedMenu();
+    private static BeneficialMenus applyWeekendDiscount(OrderForm orderForm) {
+        BeneficialMenus discountedMenu = new BeneficialMenus();
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             if (MenuGroup.isInGroup(menu, MenuGroup.MAIN)) {
@@ -79,9 +78,16 @@ public enum BenefitType {
         return discountedMenu;
     }
 
-    private static DiscountedMenu applySpecialDiscount() {
-        DiscountedMenu discountedMenu = new DiscountedMenu();
+    private static BeneficialMenus applySpecialDiscount() {
+        BeneficialMenus discountedMenu = new BeneficialMenus();
         discountedMenu.discountTotalPrice(SPECIAL_DISCOUNT_PRICE);
+
+        return discountedMenu;
+    }
+
+    private static BeneficialMenus applyGiftBenefit() {
+        BeneficialMenus discountedMenu = new BeneficialMenus();
+        discountedMenu.addGiftProduct(GiftProduct.CHAMPAGNE);
 
         return discountedMenu;
     }
@@ -170,7 +176,7 @@ public enum BenefitType {
         return totalPrice < MINIMUM_AMOUNT;
     }
 
-    public static DiscountedMenu apply(BenefitType benefitType, OrderForm orderForm) {
+    public static BeneficialMenus apply(BenefitType benefitType, OrderForm orderForm) {
         return benefitType.benefitApplier.apply(orderForm);
     }
 

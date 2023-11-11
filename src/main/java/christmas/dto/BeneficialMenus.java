@@ -1,23 +1,31 @@
 package christmas.dto;
 
 import christmas.domain.Menu;
+import christmas.domain.benefit.GiftProduct;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class DiscountedMenu {
+public class BeneficialMenus {
     private Map<Menu, Integer> discountedMenuPrices;
+    private List<GiftProduct> giftProducts;
     private int discountedTotalPrice;
 
-    public DiscountedMenu() {
+    public BeneficialMenus() {
         this.discountedMenuPrices = new HashMap<>();
+        this.giftProducts = new ArrayList<>();
         this.discountedTotalPrice = 0;
     }
 
     public void discountPrice(Menu menu, Integer discountedPrice, Integer count) {
-        this.discountedMenuPrices.put(menu, this.discountedMenuPrices.getOrDefault(menu, 0) + count * discountedPrice);
+        int calculateDiscount = count * discountedPrice;
+        discountedTotalPrice += calculateDiscount;
+        this.discountedMenuPrices.put(menu, this.discountedMenuPrices.getOrDefault(menu, 0) + calculateDiscount);
     }
 
     public void discountPrice(Menu menu, Integer discountedPrice) {
+        discountedTotalPrice += discountedPrice;
         this.discountedMenuPrices.put(menu, this.discountedMenuPrices.getOrDefault(menu, 0) + discountedPrice);
     }
 
@@ -25,11 +33,16 @@ public class DiscountedMenu {
         this.discountedTotalPrice += price;
     }
 
-    public void add(DiscountedMenu discountedMenuForAdd) {
+    public void add(BeneficialMenus discountedMenuForAdd) {
         Map<Menu, Integer> discountedPriceForAdd = discountedMenuForAdd.discountedMenuPrices;
 
         for (Menu menu : discountedPriceForAdd.keySet()) {
             this.discountPrice(menu, discountedPriceForAdd.get(menu));
+        }
+
+        List<GiftProduct> acceptableGiftProducts = discountedMenuForAdd.getGiftProducts();
+        if (!acceptableGiftProducts.isEmpty()) {
+            this.giftProducts.addAll(acceptableGiftProducts);
         }
 
         this.discountTotalPrice(discountedMenuForAdd.getDiscountedTotalPrice());
@@ -41,5 +54,14 @@ public class DiscountedMenu {
 
     public int getDiscountedPrice(Menu menu) {
         return discountedMenuPrices.get(menu);
+    }
+
+    public void addGiftProduct(GiftProduct giftProduct) {
+        this.giftProducts.add(giftProduct);
+        discountedTotalPrice += giftProduct.getPrice();
+    }
+
+    public List<GiftProduct> getGiftProducts() {
+        return giftProducts;
     }
 }

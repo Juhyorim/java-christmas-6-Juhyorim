@@ -1,8 +1,8 @@
 package christmas.domain.benefit;
 
 import christmas.domain.OrderForm;
-import christmas.dto.DiscountedMenu;
+import christmas.dto.BeneficialMenus;
 
 public interface BenefitApplier {
-    DiscountedMenu apply(OrderForm orderForm);
+    BeneficialMenus apply(OrderForm orderForm);
 }
