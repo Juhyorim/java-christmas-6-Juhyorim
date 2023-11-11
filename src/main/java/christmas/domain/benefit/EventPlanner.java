@@ -31,7 +31,7 @@ public class EventPlanner {
                 inputValidator.validate(input);
                 return parser.parse(input);
             } catch (IllegalArgumentException e) {
-                consoleOutput.printError(e.getMessage());
+                consoleOutput.printInvalidDayError();
             }
         }
     }
