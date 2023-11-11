@@ -16,7 +16,10 @@ public enum BenefitType {
             (benefitCheckDto) -> isWeekDay(benefitCheckDto),
             (orderForm) -> applyWeekdayDiscount(orderForm)
     ),
-    WEEKEND((benefitCheckDto) -> isWeekend(benefitCheckDto), (orderForm) -> new DiscountedMenu()),
+    WEEKEND(
+            (benefitCheckDto) -> isWeekend(benefitCheckDto),
+            (orderForm) -> applyWeekendDiscount(orderForm)
+    ),
     SPECIAL((benefitCheckDto) -> isSpecialDay(benefitCheckDto), (orderForm) -> new DiscountedMenu()),
     GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto), (orderForm) -> new DiscountedMenu());
 
@@ -26,6 +29,7 @@ public enum BenefitType {
     private static final LocalDate CHRISTMAS_DATE = LocalDate.of(2023, 12, 25);
     private static final LocalDate FIRST_DATE = LocalDate.of(2023, 12, 1);
     public static final int WEEK_DAY_DISCOUNT_PRICE = 2023;
+    public static final int WEEKEND_DISCOUNT_PRICE = 2023;
     private BenefitVerification verify;
     private BenefitApplier benefitApplier;
 
@@ -48,6 +52,18 @@ public enum BenefitType {
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             if (MenuGroup.isInGroup(menu, MenuGroup.DESSERT)) {
                 discountedMenu.discountPrice(menu, WEEK_DAY_DISCOUNT_PRICE, orderedMenu.getCount(menu));
+            }
+        }
+
+        return discountedMenu;
+    }
+
+    private static DiscountedMenu applyWeekendDiscount(OrderForm orderForm) {
+        DiscountedMenu discountedMenu = new DiscountedMenu();
+        OrderedMenu orderedMenu = orderForm.getMenus();
+        for (Menu menu : orderedMenu.getKindOfMenu()) {
+            if (MenuGroup.isInGroup(menu, MenuGroup.MAIN)) {
+                discountedMenu.discountPrice(menu, WEEKEND_DISCOUNT_PRICE, orderedMenu.getCount(menu));
             }
         }
 
