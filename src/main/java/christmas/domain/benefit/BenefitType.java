@@ -14,21 +14,29 @@ import java.util.List;
 
 public enum BenefitType {
     CHRISTMAS_D_DAY(
+            "크리스마스 디데이 할인",
             (benefitCheckDto) -> isChristmasSeason(benefitCheckDto),
             (orderForm) -> applyChristmasDDayDiscount(orderForm)
     ),
     WEEK_DAY(
+            "평일 할인",
             (benefitCheckDto) -> isWeekDay(benefitCheckDto),
             (orderForm) -> applyWeekdayDiscount(orderForm)
     ),
     WEEKEND(
+            "특별 할인",
             (benefitCheckDto) -> isWeekend(benefitCheckDto),
             (orderForm) -> applyWeekendDiscount(orderForm)
     ),
     SPECIAL(
+            "특별 할인",
             (benefitCheckDto) -> isSpecialDay(benefitCheckDto),
             (orderForm) -> applySpecialDiscount()),
-    GIFT((benefitCheckDto) -> canGetGift(benefitCheckDto), (orderForm) -> applyGiftBenefit());
+    GIFT(
+            "증정 이벤트",
+            (benefitCheckDto) -> canGetGift(benefitCheckDto),
+            (orderForm) -> applyGiftBenefit()
+    );
 
     private static final int MINIMUM_AMOUNT = 10000;
     private static final int GIFT_WORTHY_PRICE = 120000;
@@ -38,10 +46,13 @@ public enum BenefitType {
     public static final int WEEK_DAY_DISCOUNT_PRICE = 2023;
     public static final int WEEKEND_DISCOUNT_PRICE = 2023;
     public static final int SPECIAL_DISCOUNT_PRICE = 1000;
+
+    private String name;
     private BenefitVerification verify;
     private BenefitApplier benefitApplier;
 
-    BenefitType(BenefitVerification verify, BenefitApplier benefitApplier) {
+    BenefitType(String name, BenefitVerification verify, BenefitApplier benefitApplier) {
+        this.name = name;
         this.verify = verify;
         this.benefitApplier = benefitApplier;
     }
@@ -182,5 +193,9 @@ public enum BenefitType {
 
     private boolean canApply(BenefitCheckDto benefitCheckDto) {
         return verify.check(benefitCheckDto);
+    }
+
+    public String getName() {
+        return name;
     }
 }

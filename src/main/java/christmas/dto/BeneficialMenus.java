@@ -37,7 +37,8 @@ public class BeneficialMenus {
         Map<Menu, Integer> discountedPriceForAdd = discountedMenuForAdd.discountedMenuPrices;
 
         for (Menu menu : discountedPriceForAdd.keySet()) {
-            this.discountPrice(menu, discountedPriceForAdd.get(menu));
+            Integer discountedPrice = discountedPriceForAdd.get(menu);
+            discountPrice(menu, discountedPrice);
         }
 
         List<GiftProduct> acceptableGiftProducts = discountedMenuForAdd.getGiftProducts();

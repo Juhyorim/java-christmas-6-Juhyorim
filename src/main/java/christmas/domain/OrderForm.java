@@ -41,6 +41,7 @@ public class OrderForm {
     public void addMenus(Map<Menu, Integer> orders) {
         for (Menu menu : orders.keySet()) {
             menus.add(menu, orders.get(menu));
+            totalPrice += menu.getPrice() * orders.get(menu);
         }
     }
 }

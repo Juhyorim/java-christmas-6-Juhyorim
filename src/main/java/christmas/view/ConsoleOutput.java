@@ -3,8 +3,10 @@ package christmas.view;
 import christmas.domain.Menu;
 import christmas.domain.OrderForm;
 import christmas.domain.OrderedMenu;
+import christmas.domain.benefit.BenefitType;
 import christmas.domain.benefit.GiftProduct;
 import java.util.List;
+import java.util.Map;
 
 public class ConsoleOutput {
     public static final String GREETING_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
@@ -55,12 +57,26 @@ public class ConsoleOutput {
     public void printGift(List<GiftProduct> giftProducts) {
         System.out.println("<증정 메뉴>");
         if (giftProducts.size() == 0) {
-            System.out.println("없음");
+            System.out.println("없음\n");
             return;
         }
 
         for (GiftProduct giftProduct : giftProducts) {
             System.out.println(giftProduct.getName());
+        }
+
+        System.out.println();
+    }
+
+    public void printBenefits(Map<BenefitType, Integer> discountPriceByBenefitType) {
+        System.out.println("<혜택 내역>");
+        if (discountPriceByBenefitType.size() == 0) {
+            System.out.println("없음" + "\n");
+            return;
+        }
+
+        for (BenefitType benefitType : discountPriceByBenefitType.keySet()) {
+            System.out.println(benefitType.getName() + ": " + "-" + discountPriceByBenefitType.get(benefitType) + "원");
         }
 
         System.out.println();

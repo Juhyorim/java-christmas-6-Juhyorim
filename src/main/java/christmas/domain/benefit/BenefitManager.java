@@ -2,7 +2,6 @@ package christmas.domain.benefit;
 
 import christmas.domain.DiscountCalculator;
 import christmas.domain.OrderForm;
-import christmas.dto.BeneficialMenus;
 import christmas.dto.BenefitCheckDto;
 import christmas.dto.BenefitResult;
 import java.util.List;
@@ -12,9 +11,9 @@ public class BenefitManager {
         BenefitCheckDto benefitCheckDto = BenefitCheckDto.make(orderForm);
         List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
 
-        BeneficialMenus beneficialMenus = DiscountCalculator.applyDiscount(orderForm, possibleBenefits);
-        EventBadge eventBadge = EventBadge.getBadge(beneficialMenus.getDiscountedTotalPrice());
+        TotalBenefit totalBenefit = DiscountCalculator.applyDiscount(orderForm, possibleBenefits);
+        EventBadge eventBadge = EventBadge.getBadge(totalBenefit.getTotalDiscountPrice());
 
-        return new BenefitResult(beneficialMenus, eventBadge);
+        return new BenefitResult(totalBenefit, eventBadge);
     }
 }
