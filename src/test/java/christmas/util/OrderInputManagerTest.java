@@ -40,4 +40,13 @@ class OrderInputManagerTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("메뉴 개수가 올바르지 않습니다.");
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {"양송이수프-20,타파스-1", "양송이수프-19,타파스-2", "양송이수프-111,타파스-1"}, delimiter = ':')
+    @DisplayName("메뉴 개수가 20개를 초과할 때 예외발생")
+    void OverMenuCountThrowException(String menuAndCountInput) {
+        assertThatThrownBy(() -> OrderInputManager.getValidOrder(menuAndCountInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("메뉴 개수는 20개 이하여야합니다.");
+    }
 }
