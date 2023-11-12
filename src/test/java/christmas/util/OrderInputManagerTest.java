@@ -49,4 +49,13 @@ class OrderInputManagerTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("메뉴 개수는 20개 이하여야합니다.");
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {"양송이수프-20,양송이수프-1", "타파스-19,타파스-2", "초코케이크-111,초코케이크-1"}, delimiter = ':')
+    @DisplayName("메뉴가 중복될 때 예외발생")
+    void DuplicatedMenuThrowException(String menuAndCountInput) {
+        assertThatThrownBy(() -> OrderInputManager.getValidOrder(menuAndCountInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("메뉴는 중복되어선 안됩니다.");
+    }
 }
