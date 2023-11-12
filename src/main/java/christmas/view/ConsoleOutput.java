@@ -86,4 +86,9 @@ public class ConsoleOutput {
         System.out.println("<총혜택 금액>");
         System.out.println(totalDiscountPrice + "원\n");
     }
+
+    public void printActualPaymentAmount(int actualPaymentAmount) {
+        System.out.println("<할인 후 예상 결제 금액>");
+        System.out.println(actualPaymentAmount + "원\n");
+    }
 }

@@ -10,6 +10,7 @@ import christmas.view.ConsoleOutput;
 import christmas.view.InputValidator;
 import christmas.view.Parser;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class EventPlanner {
@@ -30,9 +31,21 @@ public class EventPlanner {
         consoleOutput.printResultStart();
         consoleOutput.printOrderMenu(orderForm);
         consoleOutput.printTotalPriceBeforeDiscount(orderForm.getTotalPrice());
-        consoleOutput.printGift(benefits.getTotalBenefit().getBeneficialMenus().getGiftProducts());
+
+        List<GiftProduct> giftProducts = benefits.getTotalBenefit().getBeneficialMenus().getGiftProducts();
+        consoleOutput.printGift(giftProducts);
         consoleOutput.printBenefits(benefits.getTotalBenefit().getDiscountPrice());
         consoleOutput.printTotalDiscount(benefits.getTotalBenefit().getTotalDiscountPrice());
+        int actualPaymentAmount = orderForm.getTotalPrice() - benefits.getTotalBenefit().getTotalDiscountPrice();
+        if (actualPaymentAmount < 0) {
+            actualPaymentAmount = 0;
+        }
+        if (giftProducts.size() != 0) {
+            for (GiftProduct giftProduct: giftProducts) {
+                actualPaymentAmount += giftProduct.getPrice();
+            }
+        }
+        consoleOutput.printActualPaymentAmount(actualPaymentAmount);
     }
 
     private OrderForm getValidOrderForm(int orderDayOfMonth) {
