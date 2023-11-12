@@ -37,9 +37,17 @@ public class OrderInputManager {
 
         Menu validMenu = parseMenu(menu);
         int validCount = parseMenuCount(count);
+
+        validateDuplicatedMenu(menuAndCount, validMenu);
         menuAndCount.put(validMenu, validCount);
 
         return validCount;
+    }
+
+    private static void validateDuplicatedMenu(Map<Menu, Integer> menuAndCount, Menu validMenu) {
+        if (menuAndCount.get(validMenu) != null) {
+            throw new IllegalArgumentException("메뉴는 중복되어선 안됩니다.");
+        }
     }
 
     private static Menu parseMenu(String menuName) {
