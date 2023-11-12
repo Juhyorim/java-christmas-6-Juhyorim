@@ -3,6 +3,8 @@ package christmas.view;
 import christmas.domain.Menu;
 import christmas.domain.OrderForm;
 import christmas.domain.OrderedMenu;
+import christmas.domain.benefit.GiftProduct;
+import java.util.List;
 
 public class ConsoleOutput {
     public static final String GREETING_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
@@ -48,5 +50,19 @@ public class ConsoleOutput {
     public void printTotalPriceBeforeDiscount(int totalPrice) {
         System.out.println("<할인 전 총주문 금액>");
         System.out.println("" + totalPrice + "원\n");
+    }
+
+    public void printGift(List<GiftProduct> giftProducts) {
+        System.out.println("<증정 메뉴>");
+        if (giftProducts.size() == 0) {
+            System.out.println("없음");
+            return;
+        }
+
+        for (GiftProduct giftProduct : giftProducts) {
+            System.out.println(giftProduct.getName());
+        }
+
+        System.out.println();
     }
 }
