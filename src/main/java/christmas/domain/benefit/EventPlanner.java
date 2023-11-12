@@ -32,6 +32,7 @@ public class EventPlanner {
         consoleOutput.printTotalPriceBeforeDiscount(orderForm.getTotalPrice());
         consoleOutput.printGift(benefits.getTotalBenefit().getBeneficialMenus().getGiftProducts());
         consoleOutput.printBenefits(benefits.getTotalBenefit().getDiscountPrice());
+        consoleOutput.printTotalDiscount(benefits.getTotalBenefit().getTotalDiscountPrice());
     }
 
     private OrderForm getValidOrderForm(int orderDayOfMonth) {

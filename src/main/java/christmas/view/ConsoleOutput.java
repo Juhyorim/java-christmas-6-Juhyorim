@@ -81,4 +81,9 @@ public class ConsoleOutput {
 
         System.out.println();
     }
+
+    public void printTotalDiscount(int totalDiscountPrice) {
+        System.out.println("<총혜택 금액>");
+        System.out.println(totalDiscountPrice + "원\n");
+    }
 }
