@@ -7,16 +7,20 @@ import java.util.Map;
 
 public class OrderInputManager {
     private static final int MINIMUN_ORDER_COUNT = 20;
+    public static final char MENU_AND_COUNT_DELIMITER = '-';
+    public static final char MENU_DELIMITER = ',';
+    public static final String NUMERIC_REGEX = "[0-9]+";
     public static final String INVALiD_MENU = "해당하는 메뉴가 존재하지 않습니다.";
     public static final String INVALID_MENU_COUNT = "메뉴 개수가 올바르지 않습니다.";
     public static final String UNDER_20_REQUIRED = "메뉴 개수는 20개 이하여야합니다.";
+    public static final String DUPLICATED_MENU_NOT_ALLOWED = "메뉴는 중복되어선 안됩니다.";
 
     public static Map<Menu, Integer> getValidOrder(String input) {
         List<String> menuCountBundle = menuCountBundleSplit(input);
-        return menuAndCountSplit(menuCountBundle);
+        return convertMenuAndCount(menuCountBundle);
     }
 
-    private static Map<Menu, Integer> menuAndCountSplit(List<String> menuCountBundles) {
+    private static Map<Menu, Integer> convertMenuAndCount(List<String> menuCountBundles) {
         Map<Menu, Integer> menuAndCount = new HashMap<>();
         int totalCount = 0;
 
@@ -31,7 +35,7 @@ public class OrderInputManager {
     }
 
     private static int addMenuAndCount(Map<Menu, Integer> menuAndCount, String menuCountBundle) {
-        List<String> splitedMenuCount = SplitManager.split(menuCountBundle, '-');
+        List<String> splitedMenuCount = SplitManager.split(menuCountBundle, MENU_AND_COUNT_DELIMITER);
         String menu = splitedMenuCount.get(0);
         String count = splitedMenuCount.get(1);
 
@@ -46,7 +50,7 @@ public class OrderInputManager {
 
     private static void validateDuplicatedMenu(Map<Menu, Integer> menuAndCount, Menu validMenu) {
         if (menuAndCount.get(validMenu) != null) {
-            throw new IllegalArgumentException("메뉴는 중복되어선 안됩니다.");
+            throw new IllegalArgumentException(DUPLICATED_MENU_NOT_ALLOWED);
         }
     }
 
@@ -64,7 +68,7 @@ public class OrderInputManager {
     private static int parseMenuCount(String count) {
         count = count.trim();
 
-        if (count.matches("[0-9]+") == false) {
+        if (count.matches(NUMERIC_REGEX) == false) {
             throw new IllegalArgumentException(INVALID_MENU_COUNT);
         }
 
@@ -77,6 +81,6 @@ public class OrderInputManager {
     }
 
     private static List<String> menuCountBundleSplit(String input) {
-        return SplitManager.split(input, ',');
+        return SplitManager.split(input, MENU_DELIMITER);
     }
 }
