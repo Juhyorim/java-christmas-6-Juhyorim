@@ -23,7 +23,7 @@ class DiscountCalculatorTest {
         //when
         orderForm.addMenu(Menu.CHRISTMAS_PASTA, count);
         List<BenefitType> benefits = List.of(BenefitType.CHRISTMAS_D_DAY);
-        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getBeneficialMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
@@ -41,7 +41,7 @@ class DiscountCalculatorTest {
         orderForm.addMenu(Menu.SEAFOOD_PASTA, 1);
         orderForm.addMenu(Menu.CAESAR_SALAD, 1);
         List<BenefitType> benefits = List.of(BenefitType.CHRISTMAS_D_DAY);
-        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getBeneficialMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
@@ -58,7 +58,7 @@ class DiscountCalculatorTest {
         //when
         orderForm.addMenu(Menu.ICE_CREAM, count);
         List<BenefitType> benefits = List.of(BenefitType.WEEK_DAY);
-        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getBeneficialMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.ICE_CREAM)).isEqualTo(2023 * count);
@@ -75,7 +75,7 @@ class DiscountCalculatorTest {
         //when
         orderForm.addMenu(Menu.T_BONE_STEAK, count);
         List<BenefitType> benefits = List.of(BenefitType.WEEKEND);
-        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getBeneficialMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.T_BONE_STEAK)).isEqualTo(2023 * count);
@@ -91,7 +91,7 @@ class DiscountCalculatorTest {
         //when
         orderForm.addMenu(Menu.T_BONE_STEAK, 2);
         List<BenefitType> benefits = List.of(BenefitType.SPECIAL);
-        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getBeneficialMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
@@ -107,7 +107,7 @@ class DiscountCalculatorTest {
         //when
         orderForm.addMenu(Menu.T_BONE_STEAK, 2);
         List<BenefitType> benefits = List.of(BenefitType.GIFT);
-        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits);
+        BeneficialMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getBeneficialMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(GiftProduct.CHAMPAGNE.getPrice());
