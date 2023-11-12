@@ -29,6 +29,7 @@ public class EventPlanner {
     private void printResult(OrderForm orderForm, BenefitResult benefits) {
         consoleOutput.printResultStart();
         consoleOutput.printOrderMenu(orderForm);
+        consoleOutput.printTotalPriceBeforeDiscount(orderForm.getTotalPrice());
     }
 
     private OrderForm getValidOrderForm(int orderDayOfMonth) {
