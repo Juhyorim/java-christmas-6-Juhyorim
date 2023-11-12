@@ -3,6 +3,7 @@ package christmas.domain.benefit;
 import christmas.EventDayValidator;
 import christmas.domain.Menu;
 import christmas.domain.OrderForm;
+import christmas.dto.BenefitResult;
 import christmas.util.OrderInputManager;
 import christmas.view.ConsoleInput;
 import christmas.view.ConsoleOutput;
@@ -14,11 +15,13 @@ import java.util.Map;
 public class EventPlanner {
     private ConsoleInput consoleInput = new ConsoleInput();
     private ConsoleOutput consoleOutput = new ConsoleOutput();
+    private BenefitManager benefitManager = new BenefitManager();
 
     public void startOrder() {
         consoleOutput.greeting();
         int orderDayOfMonth = getOrderDayOfMonth();
         OrderForm orderForm = getValidOrderForm(orderDayOfMonth);
+        BenefitResult benefits = benefitManager.getBenefits(orderForm);
     }
 
     private OrderForm getValidOrderForm(int orderDayOfMonth) {
