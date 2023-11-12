@@ -58,4 +58,13 @@ class OrderInputManagerTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("메뉴는 중복되어선 안됩니다.");
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {"제로콜라-10", "레드와인-2", "제로콜라-3,레드와인-1"}, delimiter = ':')
+    @DisplayName("음료만 주문 시 예외발생")
+    void onlyDrinkOrderThrowException(String menuAndCountInput) {
+        assertThatThrownBy(() -> OrderInputManager.getValidOrder(menuAndCountInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("음료만 주문이 불가능합니다");
+    }
 }
