@@ -1,6 +1,7 @@
 package christmas.util;
 
 import christmas.domain.Menu;
+import christmas.domain.MenuGroup;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ public class OrderInputManager {
     public static final String INVALID_MENU_COUNT = "메뉴 개수가 올바르지 않습니다.";
     public static final String UNDER_20_REQUIRED = "메뉴 개수는 20개 이하여야합니다.";
     public static final String DUPLICATED_MENU_NOT_ALLOWED = "메뉴는 중복되어선 안됩니다.";
+    public static final String ONLY_DRINK_ORDER_NOT_ALLOWED = "음료만 주문이 불가능합니다";
 
     public static Map<Menu, Integer> getValidOrder(String input) {
         List<String> menuCountBundle = menuCountBundleSplit(input);
@@ -31,7 +33,22 @@ public class OrderInputManager {
             }
         }
 
+        validateMenuCombination(menuAndCount);
+
         return menuAndCount;
+    }
+
+    private static void validateMenuCombination(Map<Menu, Integer> menuAndCount) {
+        boolean containOnlyDrink = true;
+        for (Menu menu: menuAndCount.keySet()) {
+            if (MenuGroup.findMenuGroup(menu) != MenuGroup.DRINK) {
+                containOnlyDrink = false;
+            }
+        }
+
+        if (containOnlyDrink) {
+            throw new IllegalArgumentException(ONLY_DRINK_ORDER_NOT_ALLOWED);
+        }
     }
 
     private static int addMenuAndCount(Map<Menu, Integer> menuAndCount, String menuCountBundle) {
