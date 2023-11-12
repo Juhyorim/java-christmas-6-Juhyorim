@@ -1,19 +1,19 @@
 package christmas.dto;
 
-import christmas.domain.OrderForm;
+import christmas.domain.Order;
 import java.time.LocalDate;
 
-public class BenefitCheckDto {
+public class DiscountCheck implements BenefitCheck {
     private int totalPrice;
     private LocalDate date;
 
-    public BenefitCheckDto(int totalPrice, LocalDate date) {
+    public DiscountCheck(int totalPrice, LocalDate date) {
         this.totalPrice = totalPrice;
         this.date = date;
     }
 
-    public static BenefitCheckDto make(OrderForm orderForm) {
-        return new BenefitCheckDto(orderForm.getTotalPrice(), orderForm.getOrderDate());
+    public static DiscountCheck make(Order orderForm) {
+        return new DiscountCheck(orderForm.getTotalPrice(), orderForm.getOrderDate());
     }
 
     public int getTotalPrice() {

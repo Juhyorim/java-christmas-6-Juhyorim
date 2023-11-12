@@ -1,7 +1,7 @@
 package christmas.domain.benefit;
 
-import christmas.dto.BenefitCheckDto;
+import christmas.dto.BenefitCheck;
 
 public interface BenefitVerification {
-    boolean check(BenefitCheckDto benefitCheckDto);
+    boolean check(BenefitCheck benefitCheck);
 }

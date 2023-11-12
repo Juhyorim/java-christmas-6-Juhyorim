@@ -1,10 +1,9 @@
 package christmas.view;
 
 import christmas.domain.Menu;
-import christmas.domain.OrderForm;
+import christmas.domain.Order;
 import christmas.domain.OrderedMenu;
-import christmas.domain.benefit.BenefitType;
-import christmas.domain.benefit.GiftProduct;
+import christmas.domain.benefit.gift.GiftProduct;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class ConsoleOutput {
         System.out.println(PRINT_RESULT_START_MESSAGE + "\n");
     }
 
-    public void printOrderMenu(OrderForm orderForm) {
+    public void printOrderMenu(Order orderForm) {
         System.out.println("<주문 메뉴>");
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
@@ -62,21 +61,21 @@ public class ConsoleOutput {
         }
 
         for (GiftProduct giftProduct : giftProducts) {
-            System.out.println(giftProduct.getName());
+            System.out.println(giftProduct.getName() + " 1개");
         }
 
         System.out.println();
     }
 
-    public void printBenefits(Map<BenefitType, Integer> discountPriceByBenefitType) {
+    public void printBenefits(Map<String, Integer> benefits) {
         System.out.println("<혜택 내역>");
-        if (discountPriceByBenefitType.size() == 0) {
+        if (benefits.size() == 0) {
             System.out.println("없음" + "\n");
             return;
         }
 
-        for (BenefitType benefitType : discountPriceByBenefitType.keySet()) {
-            System.out.println(benefitType.getName() + ": " + "-" + discountPriceByBenefitType.get(benefitType) + "원");
+        for (String benefitName : benefits.keySet()) {
+            System.out.println(benefitName + ": " + "-" + benefits.get(benefitName) + "원");
         }
 
         System.out.println();

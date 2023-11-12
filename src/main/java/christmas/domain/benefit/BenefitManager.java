@@ -1,19 +1,39 @@
 package christmas.domain.benefit;
 
 import christmas.domain.DiscountCalculator;
-import christmas.domain.OrderForm;
-import christmas.dto.BenefitCheckDto;
-import christmas.dto.BenefitResult;
+import christmas.domain.Order;
+import christmas.domain.benefit.discount.DiscountType;
+import christmas.domain.benefit.discount.TotalDiscount;
+import christmas.domain.benefit.gift.GiftProduct;
+import christmas.domain.benefit.gift.PossibleGift;
+import christmas.dto.DiscountCheck;
+import christmas.dto.TotalBenefits;
+import christmas.dto.GiftCheck;
 import java.util.List;
 
 public class BenefitManager {
-    public BenefitResult getBenefits(OrderForm orderForm) {
-        BenefitCheckDto benefitCheckDto = BenefitCheckDto.make(orderForm);
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+    public TotalBenefits getBenefits(Order orderForm) {
+        TotalDiscount totalDiscount = getDiscountBenefit(orderForm);
+        PossibleGift possibleGift = getGift(orderForm.getTotalPrice());
 
-        TotalBenefit totalBenefit = DiscountCalculator.applyDiscount(orderForm, possibleBenefits);
-        EventBadge eventBadge = EventBadge.getBadge(totalBenefit.getTotalDiscountPrice());
+        TotalBenefits totalBenefits = new TotalBenefits(totalDiscount, possibleGift);
 
-        return new BenefitResult(totalBenefit, eventBadge);
+        EventBadge eventBadge = EventBadge.getBadge(totalBenefits.getTotalBenefitPrice());
+        totalBenefits.addEventBadge(eventBadge);
+
+        return totalBenefits;
+    }
+
+    private PossibleGift getGift(int getDiscountedTotalPrice) {
+        GiftCheck giftCheckDto = new GiftCheck(getDiscountedTotalPrice);
+        return GiftProduct.getPossibleGift(giftCheckDto);
+    }
+
+    private static TotalDiscount getDiscountBenefit(Order orderForm) {
+        DiscountCheck benefitCheckDto = DiscountCheck.make(orderForm);
+        List<DiscountType> possibleDiscount = DiscountType.getPossibleDiscount(benefitCheckDto);
+
+        TotalDiscount totalBenefit = DiscountCalculator.applyDiscount(orderForm, possibleDiscount);
+        return totalBenefit;
     }
 }

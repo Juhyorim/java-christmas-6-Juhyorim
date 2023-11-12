@@ -1,6 +1,6 @@
 package christmas;
 
-import christmas.domain.benefit.EventPlanner;
+import christmas.domain.EventPlanner;
 
 public class Application {
     public static void main(String[] args) {

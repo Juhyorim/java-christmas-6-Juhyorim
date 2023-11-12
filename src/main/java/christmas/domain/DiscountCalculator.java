@@ -1,23 +1,23 @@
 package christmas.domain;
 
-import christmas.domain.benefit.BenefitType;
-import christmas.domain.benefit.TotalBenefit;
+import christmas.domain.benefit.discount.DiscountType;
+import christmas.domain.benefit.discount.TotalDiscount;
 import christmas.dto.BeneficialMenus;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DiscountCalculator {
-    public static TotalBenefit applyDiscount(OrderForm orderForm, List<BenefitType> benefits) {
+    public static TotalDiscount applyDiscount(Order orderForm, List<DiscountType> discounts) {
         BeneficialMenus discountedMenu = new BeneficialMenus();
-        Map<BenefitType, Integer> discountPriceByBenefit = new HashMap<>();
+        Map<DiscountType, Integer> discountPriceByBenefit = new HashMap<>();
 
-        for (BenefitType benefitType : benefits) {
-            BeneficialMenus apply = BenefitType.apply(benefitType, orderForm);
-            discountedMenu.add(BenefitType.apply(benefitType, orderForm));
-            discountPriceByBenefit.put(benefitType, apply.getDiscountedTotalPrice());
+        for (DiscountType discountType : discounts) {
+            BeneficialMenus apply = DiscountType.apply(discountType, orderForm);
+            discountedMenu.add(apply);
+            discountPriceByBenefit.put(discountType, apply.getDiscountedTotalPrice());
         }
 
-        return new TotalBenefit(discountPriceByBenefit, discountedMenu);
+        return new TotalDiscount(discountPriceByBenefit, discountedMenu);
     }
 }

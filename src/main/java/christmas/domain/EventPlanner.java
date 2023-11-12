@@ -1,16 +1,14 @@
-package christmas.domain.benefit;
+package christmas.domain;
 
 import christmas.EventDayValidator;
-import christmas.domain.Menu;
-import christmas.domain.OrderForm;
-import christmas.dto.BenefitResult;
+import christmas.domain.benefit.BenefitManager;
+import christmas.dto.TotalBenefits;
 import christmas.util.OrderInputManager;
 import christmas.view.ConsoleInput;
 import christmas.view.ConsoleOutput;
 import christmas.view.InputValidator;
 import christmas.view.Parser;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 public class EventPlanner {
@@ -21,36 +19,26 @@ public class EventPlanner {
     public void startOrder() {
         consoleOutput.greeting();
         int orderDayOfMonth = getOrderDayOfMonth();
-        OrderForm orderForm = getValidOrderForm(orderDayOfMonth);
-        BenefitResult benefits = benefitManager.getBenefits(orderForm);
+        Order orderForm = getValidOrderForm(orderDayOfMonth);
+        TotalBenefits benefits = benefitManager.getBenefits(orderForm);
 
         printResult(orderForm, benefits);
     }
 
-    private void printResult(OrderForm orderForm, BenefitResult benefits) {
+    private void printResult(Order orderForm, TotalBenefits benefits) {
         consoleOutput.printResultStart();
         consoleOutput.printOrderMenu(orderForm);
         consoleOutput.printTotalPriceBeforeDiscount(orderForm.getTotalPrice());
 
-        List<GiftProduct> giftProducts = benefits.getTotalBenefit().getBeneficialMenus().getGiftProducts();
-        consoleOutput.printGift(giftProducts);
-        consoleOutput.printBenefits(benefits.getTotalBenefit().getDiscountPrice());
-        consoleOutput.printTotalDiscount(benefits.getTotalBenefit().getTotalDiscountPrice());
-        int actualPaymentAmount = orderForm.getTotalPrice() - benefits.getTotalBenefit().getTotalDiscountPrice();
-        if (actualPaymentAmount < 0) {
-            actualPaymentAmount = 0;
-        }
-        if (giftProducts.size() != 0) {
-            for (GiftProduct giftProduct: giftProducts) {
-                actualPaymentAmount += giftProduct.getPrice();
-            }
-        }
-        consoleOutput.printActualPaymentAmount(actualPaymentAmount);
+        consoleOutput.printGift(benefits.getGifts().getGiftProducts());
+        consoleOutput.printBenefits(benefits.getBenefits());
+        consoleOutput.printTotalDiscount(benefits.getTotalBenefitPrice());
+        consoleOutput.printActualPaymentAmount(benefits.getActualDiscountPrice(orderForm.getTotalPrice()));
     }
 
-    private OrderForm getValidOrderForm(int orderDayOfMonth) {
+    private Order getValidOrderForm(int orderDayOfMonth) {
         Map<Menu, Integer> orders = getOrders();
-        OrderForm orderForm = OrderForm.make(LocalDate.of(2023, 12, orderDayOfMonth), orders);
+        Order orderForm = Order.make(LocalDate.of(2023, 12, orderDayOfMonth), orders);
 
         return orderForm;
     }

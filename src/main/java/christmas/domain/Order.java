@@ -3,19 +3,19 @@ package christmas.domain;
 import java.time.LocalDate;
 import java.util.Map;
 
-public class OrderForm {
+public class Order {
     private final LocalDate orderDate;
     private int totalPrice;
     private OrderedMenu menus;
 
-    public OrderForm(LocalDate orderDate) {
+    public Order(LocalDate orderDate) {
         this.orderDate = orderDate;
         this.totalPrice = 0;
         this.menus = new OrderedMenu();
     }
 
-    public static OrderForm make(LocalDate orderDate, Map<Menu, Integer> orders) {
-        OrderForm orderForm = new OrderForm(orderDate);
+    public static Order make(LocalDate orderDate, Map<Menu, Integer> orders) {
+        Order orderForm = new Order(orderDate);
         orderForm.addMenus(orders);
 
         return orderForm;
