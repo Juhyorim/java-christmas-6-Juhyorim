@@ -22,6 +22,13 @@ public class EventPlanner {
         int orderDayOfMonth = getOrderDayOfMonth();
         OrderForm orderForm = getValidOrderForm(orderDayOfMonth);
         BenefitResult benefits = benefitManager.getBenefits(orderForm);
+
+        printResult(orderForm, benefits);
+    }
+
+    private void printResult(OrderForm orderForm, BenefitResult benefits) {
+        consoleOutput.printResultStart();
+        consoleOutput.printOrderMenu(orderForm);
     }
 
     private OrderForm getValidOrderForm(int orderDayOfMonth) {
