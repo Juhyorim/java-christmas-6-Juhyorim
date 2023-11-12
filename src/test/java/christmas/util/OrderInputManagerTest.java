@@ -31,4 +31,13 @@ class OrderInputManagerTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("해당하는 메뉴가 존재하지 않습니다.");
     }
+
+    @ParameterizedTest
+    @CsvSource(value = {"양송이수프-0,타파스-1", "양송이수프-r,타파스-1", "양송이수프-dds,타파스-1"}, delimiter = ':')
+    @DisplayName("메뉴 개수가 이상할 때 예외발생")
+    void invalidMenuCountThrowException(String menuAndCountInput) {
+        assertThatThrownBy(() -> OrderInputManager.getValidOrder(menuAndCountInput))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("메뉴 개수가 올바르지 않습니다.");
+    }
 }
