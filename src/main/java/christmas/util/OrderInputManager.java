@@ -53,6 +53,11 @@ public class OrderInputManager {
 
     private static int addMenuAndCount(Map<Menu, Integer> menuAndCount, String menuCountBundle) {
         List<String> splitedMenuCount = SplitManager.split(menuCountBundle, MENU_AND_COUNT_DELIMITER);
+
+        if (splitedMenuCount.size() != 2) {
+            throw new IllegalArgumentException("입력형식이 올바르지 않습니다");
+        }
+
         String menu = splitedMenuCount.get(0);
         String count = splitedMenuCount.get(1);
 
