@@ -24,6 +24,14 @@ class OrderInputManagerTest {
     }
 
     @ParameterizedTest
+    @CsvSource(value = {"양송이수프-20-1,타파스-1", "양송이수프-1-9,타파스-2", "양송이수프,타파스-1"}, delimiter = ':')
+    @DisplayName("형식에 맞지 않는 입력 예외발생")
+    void invalidInput(String menuAndCountInput) {
+        assertThatThrownBy(() -> OrderInputManager.getValidOrder(menuAndCountInput))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @ParameterizedTest
     @CsvSource(value = {"양송이숲-1,타파스-1", "양송이수프-1,타노스-1", "양송이밥-1,타파스-1", "안녕-1"}, delimiter = ':')
     @DisplayName("올바르지 않은 메뉴 입력 시 예외")
     void invalidMenuThrowException(String menuAndCountInput) {
