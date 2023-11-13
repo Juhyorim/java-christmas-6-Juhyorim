@@ -2,15 +2,15 @@ package christmas.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.benefit.BenefitType;
-import christmas.dto.BenefitCheckDto;
+import christmas.domain.benefit.discount.DiscountType;
+import christmas.dto.DiscountCheck;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class BenefitTypeTest {
+class DicountTypeTest {
     @ParameterizedTest
     @CsvSource(
             value = {
@@ -21,10 +21,10 @@ class BenefitTypeTest {
     )
     @DisplayName("크리스마스 디데이 적용여부 확인")
     void christmasDDay(int year, int month, int dayOfMonth, boolean isContain) {
-        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+        DiscountCheck benefitCheckDto = new DiscountCheck(10000, LocalDate.of(year, month, dayOfMonth));
+        List<DiscountType> possibleBenefits = DiscountType.getPossibleDiscount(benefitCheckDto);
 
-        assertThat(possibleBenefits.contains(BenefitType.CHRISTMAS_D_DAY)).isEqualTo(isContain);
+        assertThat(possibleBenefits.contains(DiscountType.CHRISTMAS_D_DAY)).isEqualTo(isContain);
     }
 
     @ParameterizedTest
@@ -37,10 +37,10 @@ class BenefitTypeTest {
     )
     @DisplayName("평일할인 적용여부 확인")
     void weekday(int year, int month, int dayOfMonth, boolean isWeekDay) {
-        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+        DiscountCheck benefitCheckDto = new DiscountCheck(10000, LocalDate.of(year, month, dayOfMonth));
+        List<DiscountType> possibleBenefits = DiscountType.getPossibleDiscount(benefitCheckDto);
 
-        assertThat(possibleBenefits.contains(BenefitType.WEEK_DAY)).isEqualTo(isWeekDay);
+        assertThat(possibleBenefits.contains(DiscountType.WEEK_DAY)).isEqualTo(isWeekDay);
     }
 
     @ParameterizedTest
@@ -53,10 +53,10 @@ class BenefitTypeTest {
     )
     @DisplayName("주말할인 적용여부 확인")
     void weekend(int year, int month, int dayOfMonth, boolean isWeekend) {
-        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+        DiscountCheck benefitCheckDto = new DiscountCheck(10000, LocalDate.of(year, month, dayOfMonth));
+        List<DiscountType> possibleBenefits = DiscountType.getPossibleDiscount(benefitCheckDto);
 
-        assertThat(possibleBenefits.contains(BenefitType.WEEKEND)).isEqualTo(isWeekend);
+        assertThat(possibleBenefits.contains(DiscountType.WEEKEND)).isEqualTo(isWeekend);
     }
 
     @ParameterizedTest
@@ -69,34 +69,19 @@ class BenefitTypeTest {
     )
     @DisplayName("특별 할인 적용여부 확인")
     void specialDiscount(int year, int month, int dayOfMonth, boolean isContain) {
-        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(10000, LocalDate.of(year, month, dayOfMonth));
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+        DiscountCheck benefitCheckDto = new DiscountCheck(10000, LocalDate.of(year, month, dayOfMonth));
+        List<DiscountType> possibleBenefits = DiscountType.getPossibleDiscount(benefitCheckDto);
 
-        assertThat(possibleBenefits.contains(BenefitType.SPECIAL)).isEqualTo(isContain);
+        assertThat(possibleBenefits.contains(DiscountType.SPECIAL)).isEqualTo(isContain);
     }
 
-    @ParameterizedTest
-    @CsvSource(
-            value = {
-                    "5000:false", "10000:false", "20000:false", "119999:false",
-                    "120000:true", "120001:true", "130000:true"
-            },
-            delimiter = ':'
-    )
-    @DisplayName("증정 이벤트 적용여부 확인")
-    void gift(int totalPrice, boolean canGetGift) {
-        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(totalPrice, LocalDate.of(2023, 12, 25));
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
-
-        assertThat(possibleBenefits.contains(BenefitType.GIFT)).isEqualTo(canGetGift);
-    }
 
     @ParameterizedTest
     @CsvSource(value = {"1", "2", "10", "23", "9999"})
     @DisplayName("가격이 기준치(10000원) 미만이면 아무것도 적용되지 않음")
     void priceUnderMinPrice(int totalPrice) {
-        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(totalPrice, LocalDate.of(2023, 12, 25));
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+        DiscountCheck benefitCheckDto = new DiscountCheck(totalPrice, LocalDate.of(2023, 12, 25));
+        List<DiscountType> possibleBenefits = DiscountType.getPossibleDiscount(benefitCheckDto);
 
         assertThat(possibleBenefits.size()).isEqualTo(0);
     }
@@ -111,8 +96,8 @@ class BenefitTypeTest {
     )
     @DisplayName("2023년 12월이 아니면 아무것도 적용되지 않음")
     void test12(int year, int month, int dayOfMonth) {
-        BenefitCheckDto benefitCheckDto = new BenefitCheckDto(1000000, LocalDate.of(year, month, dayOfMonth));
-        List<BenefitType> possibleBenefits = BenefitType.getPossibleBenefits(benefitCheckDto);
+        DiscountCheck benefitCheckDto = new DiscountCheck(1000000, LocalDate.of(year, month, dayOfMonth));
+        List<DiscountType> possibleBenefits = DiscountType.getPossibleDiscount(benefitCheckDto);
 
         assertThat(possibleBenefits.size()).isEqualTo(0);
     }
