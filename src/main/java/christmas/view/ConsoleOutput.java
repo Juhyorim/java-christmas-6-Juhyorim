@@ -8,21 +8,21 @@ import java.util.List;
 import java.util.Map;
 
 public class ConsoleOutput {
-    public static final String GREETING_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
-    public static final String VISIT_DAY_REQUEST = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
-    public static final String MENU_AND_COUNT_REQUEST = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
-    public static final String PRINT_RESULT_START_MESSAGE = "12월 26일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    public static final String WON = "원";
+    public static final String NONE = "없음";
+    public static final String NEW_LINE = "\n";
+    public static final String NUMBER_UNIT = "개";
 
     public void greeting() {
-        System.out.println(GREETING_MESSAGE);
+        System.out.println(OutputMessage.GREETING_MESSAGE.getMessage());
     }
 
     public void visitDayRequest() {
-        System.out.println(VISIT_DAY_REQUEST);
+        System.out.println(OutputMessage.VISIT_DAY_REQUEST.getMessage());
     }
 
     public void menuAndCountRequest() {
-        System.out.println(MENU_AND_COUNT_REQUEST);
+        System.out.println(OutputMessage.MENU_AND_COUNT_REQUEST.getMessage());
     }
 
     public void printInvalidOrderError(String errorMessage) {
@@ -39,63 +39,63 @@ public class ConsoleOutput {
     }
 
     public void printResultStart() {
-        System.out.println(PRINT_RESULT_START_MESSAGE + "\n");
+        System.out.println(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + NEW_LINE);
     }
 
     public void printOrderMenu(Order orderForm) {
-        System.out.println("<주문 메뉴>");
+        System.out.println(TitleMessage.ORDER_MENU.getMessage());
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
-            System.out.println("" + menu.getName() + " " + orderedMenu.getCount(menu) + "개");
+            System.out.println(menu.getName() + " " + orderedMenu.getCount(menu) + NUMBER_UNIT);
         }
         System.out.println();
     }
 
     public void printTotalPriceBeforeDiscount(int totalPrice) {
-        System.out.println("<할인 전 총주문 금액>");
-        System.out.println("" + totalPrice + "원\n");
+        System.out.println(TitleMessage.TOTAL_PRICE_BEFORE_DISCOUNT.getMessage());
+        System.out.println("" + totalPrice + WON + NEW_LINE);
     }
 
     public void printGift(List<GiftProduct> giftProducts) {
-        System.out.println("<증정 메뉴>");
+        System.out.println(TitleMessage.GIFT.getMessage());
         if (giftProducts.size() == 0) {
-            System.out.println("없음\n");
+            System.out.println(NONE + NEW_LINE);
             return;
         }
 
         for (GiftProduct giftProduct : giftProducts) {
-            System.out.println(giftProduct.getName() + " 1개");
+            System.out.println(giftProduct.getName() + " " + "1" + NUMBER_UNIT);
         }
 
         System.out.println();
     }
 
     public void printBenefits(Map<String, Integer> benefits) {
-        System.out.println("<혜택 내역>");
+        System.out.println(TitleMessage.BENEFIT.getMessage());
         if (benefits.size() == 0) {
-            System.out.println("없음" + "\n");
+            System.out.println(NONE + NEW_LINE);
             return;
         }
 
         for (String benefitName : benefits.keySet()) {
-            System.out.println(benefitName + ": " + "-" + benefits.get(benefitName) + "원");
+            System.out.println(benefitName + ": " + "-" + benefits.get(benefitName) + WON);
         }
 
         System.out.println();
     }
 
     public void printTotalDiscount(int totalDiscountPrice) {
-        System.out.println("<총혜택 금액>");
-        System.out.println(totalDiscountPrice + "원\n");
+        System.out.println(TitleMessage.TOTAL_BENEFIT_PRICE.getMessage());
+        System.out.println(totalDiscountPrice + WON + NEW_LINE);
     }
 
     public void printActualPaymentAmount(int actualPaymentAmount) {
-        System.out.println("<할인 후 예상 결제 금액>");
-        System.out.println(actualPaymentAmount + "원\n");
+        System.out.println(TitleMessage.ACTUAL_PAYMENT_AMOUNT.getMessage());
+        System.out.println(actualPaymentAmount + WON + NEW_LINE);
     }
 
     public void printEventBadge(String eventBadgeName) {
-        System.out.println("<12월 이벤트 배지>");
+        System.out.println(TitleMessage.EVENT_BADGE.getMessage());
         System.out.println(eventBadgeName);
     }
 }
