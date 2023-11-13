@@ -1,5 +1,7 @@
 package christmas.domain.benefit.discount;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import christmas.domain.menu.Menu;
 import christmas.domain.Order;
 import java.time.LocalDate;
@@ -24,7 +26,7 @@ class DiscountCalculatorTest {
         DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
-        Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
+        assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
     }
 
     @Test
@@ -41,7 +43,7 @@ class DiscountCalculatorTest {
         DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
-        Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
+        assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
     }
 
     @ParameterizedTest
@@ -57,7 +59,7 @@ class DiscountCalculatorTest {
         DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
-        Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.ICE_CREAM)).isEqualTo(2023 * count);
+        assertThat(discountedMenu.getDiscountedPrice(Menu.ICE_CREAM)).isEqualTo(2023 * count);
     }
 
     @ParameterizedTest
@@ -73,7 +75,7 @@ class DiscountCalculatorTest {
         DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
-        Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.T_BONE_STEAK)).isEqualTo(2023 * count);
+        assertThat(discountedMenu.getDiscountedPrice(Menu.T_BONE_STEAK)).isEqualTo(2023 * count);
     }
 
     @Test
@@ -88,6 +90,25 @@ class DiscountCalculatorTest {
         DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
-        Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
+        assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
+    }
+
+    @Test
+    @DisplayName("DiscountType별 할인금액 저장 테스트")
+    void discountPriceByDiscountType() {
+        Order order = new Order(LocalDate.of(2023, 12, 3));
+        order.addMenu(Menu.BARBECUE_RIBS, 1);
+        order.addMenu(Menu.CHOCOLATE_CAKE, 1);
+        order.addMenu(Menu.ICE_CREAM, 1);
+        order.addMenu(Menu.TAPAS, 1);
+        TotalDiscount totalDiscount = DiscountCalculator.applyDiscount(
+                order,
+                List.of(DiscountType.SPECIAL, DiscountType.WEEKEND, DiscountType.CHRISTMAS_D_DAY)
+        );
+        //총주문 1000원 //디저트 2023 * 2원 할인 //크리스마스 1200원
+
+        assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.SPECIAL)).isEqualTo(1000);
+        assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.WEEKEND)).isEqualTo(2023 * 2);
+        assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.CHRISTMAS_D_DAY)).isEqualTo(1200);
     }
 }
