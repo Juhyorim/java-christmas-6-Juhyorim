@@ -15,7 +15,7 @@ public class BenefitDto {
         BenefitDto benefitDto = new BenefitDto();
 
         TotalDiscount totalDiscount = totalBenefits.getTotalDiscount();
-        Map<DiscountType, Integer> discountPrice = totalDiscount.getMenuAndDiscountPrice();
+        Map<DiscountType, Integer> discountPrice = totalDiscount.getgetDiscountPriceByDiscountType();
         for (DiscountType discountType : discountPrice.keySet()) {
             benefitDto.benefits.put(discountType.getName(), discountPrice.get(discountType));
         }

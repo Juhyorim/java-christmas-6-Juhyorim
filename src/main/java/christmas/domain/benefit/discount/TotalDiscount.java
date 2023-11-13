@@ -3,16 +3,16 @@ package christmas.domain.benefit.discount;
 import java.util.Map;
 
 public class TotalDiscount {
-    private Map<DiscountType, Integer> menuAndDiscountPrice;
+    private Map<DiscountType, Integer> discountPriceByDiscountType;
     private DiscountedMenus discountedMenus;
 
     public TotalDiscount(Map<DiscountType, Integer> menuAndDiscountPrice, DiscountedMenus discountedMenus) {
-        this.menuAndDiscountPrice = menuAndDiscountPrice;
+        this.discountPriceByDiscountType = menuAndDiscountPrice;
         this.discountedMenus = discountedMenus;
     }
 
-    public Map<DiscountType, Integer> getMenuAndDiscountPrice() {
-        return menuAndDiscountPrice;
+    public Map<DiscountType, Integer> getgetDiscountPriceByDiscountType() {
+        return discountPriceByDiscountType;
     }
 
     public DiscountedMenus getDiscountedMenus() {

@@ -69,7 +69,7 @@ public class TotalBenefits {
     public Map<String, Integer> getBenefits() {
         Map<String, Integer> benefits = new HashMap<>();
 
-        Map<DiscountType, Integer> benefitByDiscountType = totalDiscount.getMenuAndDiscountPrice();
+        Map<DiscountType, Integer> benefitByDiscountType = totalDiscount.getgetDiscountPriceByDiscountType();
         for (DiscountType discountType : benefitByDiscountType.keySet()) {
             benefits.put(discountType.getName(), benefitByDiscountType.get(discountType));
         }
