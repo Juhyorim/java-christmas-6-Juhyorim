@@ -1,6 +1,4 @@
-package christmas.domain.benefit.gift;
-
-import christmas.domain.benefit.BenefitCheck;
+package christmas.dto;
 
 public class GiftCheck implements BenefitCheck {
     private int discountedTotalPrice;
