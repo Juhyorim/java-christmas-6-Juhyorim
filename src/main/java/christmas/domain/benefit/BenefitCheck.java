@@ -1,4 +1,4 @@
-package christmas.dto;
+package christmas.domain.benefit;
 
 public interface BenefitCheck {
 }

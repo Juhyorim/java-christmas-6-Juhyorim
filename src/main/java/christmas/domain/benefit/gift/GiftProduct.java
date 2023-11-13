@@ -2,8 +2,7 @@ package christmas.domain.benefit.gift;
 
 import christmas.domain.Menu;
 import christmas.domain.benefit.BenefitVerification;
-import christmas.dto.BenefitCheck;
-import christmas.dto.GiftCheck;
+import christmas.domain.benefit.BenefitCheck;
 import java.util.ArrayList;
 import java.util.List;
 

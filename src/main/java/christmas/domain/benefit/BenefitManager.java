@@ -6,9 +6,9 @@ import christmas.domain.benefit.discount.DiscountType;
 import christmas.domain.benefit.discount.TotalDiscount;
 import christmas.domain.benefit.gift.GiftProduct;
 import christmas.domain.benefit.gift.PossibleGift;
-import christmas.dto.DiscountCheck;
+import christmas.domain.benefit.discount.DiscountCheck;
 import christmas.dto.TotalBenefits;
-import christmas.dto.GiftCheck;
+import christmas.domain.benefit.gift.GiftCheck;
 import java.util.List;
 
 public class BenefitManager {

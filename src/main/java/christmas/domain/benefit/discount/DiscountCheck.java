@@ -1,6 +1,7 @@
-package christmas.dto;
+package christmas.domain.benefit.discount;
 
 import christmas.domain.Order;
+import christmas.domain.benefit.BenefitCheck;
 import java.time.LocalDate;
 
 public class DiscountCheck implements BenefitCheck {
