@@ -1,6 +1,6 @@
 package christmas.domain.benefit;
 
-import christmas.domain.DiscountCalculator;
+import christmas.domain.benefit.discount.DiscountCalculator;
 import christmas.domain.Order;
 import christmas.domain.benefit.discount.DiscountType;
 import christmas.domain.benefit.discount.TotalDiscount;
