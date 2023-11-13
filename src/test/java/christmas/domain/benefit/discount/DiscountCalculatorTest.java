@@ -94,21 +94,42 @@ class DiscountCalculatorTest {
     }
 
     @Test
-    @DisplayName("DiscountType별 할인금액 저장 테스트")
+    @DisplayName("DiscountType별 할인금액 저장 테스트1")
     void discountPriceByDiscountType() {
         Order order = new Order(LocalDate.of(2023, 12, 3));
         order.addMenu(Menu.BARBECUE_RIBS, 1);
-        order.addMenu(Menu.CHOCOLATE_CAKE, 1);
+        order.addMenu(Menu.SEAFOOD_PASTA, 1);
         order.addMenu(Menu.ICE_CREAM, 1);
         order.addMenu(Menu.TAPAS, 1);
         TotalDiscount totalDiscount = DiscountCalculator.applyDiscount(
                 order,
                 List.of(DiscountType.SPECIAL, DiscountType.WEEKEND, DiscountType.CHRISTMAS_D_DAY)
         );
-        //총주문 1000원 //디저트 2023 * 2원 할인 //크리스마스 1200원
+        //총주문 1000원 //메인메뉴 2023 * 2원 할인 //크리스마스 1200원
 
         assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.SPECIAL)).isEqualTo(1000);
         assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.WEEKEND)).isEqualTo(2023 * 2);
         assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.CHRISTMAS_D_DAY)).isEqualTo(1200);
+        assertThat(totalDiscount.getTotalDiscountPrice()).isEqualTo(1000 + 2023*2 + 1200);
+    }
+
+    @Test
+    @DisplayName("DiscountType별 할인금액 저장 테스트2")
+    void discountPriceByDiscountType2() {
+        Order order = new Order(LocalDate.of(2023, 12, 25));
+        order.addMenu(Menu.BARBECUE_RIBS, 1);
+        order.addMenu(Menu.CHOCOLATE_CAKE, 1);
+        order.addMenu(Menu.ICE_CREAM, 1);
+        order.addMenu(Menu.TAPAS, 1);
+        TotalDiscount totalDiscount = DiscountCalculator.applyDiscount(
+                order,
+                List.of(DiscountType.SPECIAL, DiscountType.WEEK_DAY, DiscountType.CHRISTMAS_D_DAY)
+        );
+        //총주문 1000원 //디저트 2023 * 2원 할인 //크리스마스 3400원
+
+        assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.SPECIAL)).isEqualTo(1000);
+        assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.WEEK_DAY)).isEqualTo(2023 * 2);
+        assertThat(totalDiscount.getgetDiscountPriceByDiscountType().get(DiscountType.CHRISTMAS_D_DAY)).isEqualTo(3400);
+        assertThat(totalDiscount.getTotalDiscountPrice()).isEqualTo(1000 + 2023*2 + 3400);
     }
 }
