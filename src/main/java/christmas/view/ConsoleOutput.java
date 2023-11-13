@@ -4,9 +4,11 @@ import christmas.domain.menu.Menu;
 import christmas.domain.Order;
 import christmas.domain.OrderedMenu;
 import christmas.domain.benefit.gift.GiftProduct;
+import christmas.util.MessageFormatter;
 import christmas.view.message.ErrorMessage;
 import christmas.view.message.OutputMessage;
 import christmas.view.message.TitleMessage;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +58,7 @@ public class ConsoleOutput {
 
     public void printTotalPriceBeforeDiscount(int totalPrice) {
         System.out.println(TitleMessage.TOTAL_PRICE_BEFORE_DISCOUNT.getMessage());
-        System.out.println("" + totalPrice + WON + NEW_LINE);
+        System.out.println("" + MessageFormatter.getFormattedPrice(totalPrice) + WON + NEW_LINE);
     }
 
     public void printGift(List<GiftProduct> giftProducts) {
@@ -81,7 +83,8 @@ public class ConsoleOutput {
         }
 
         for (String benefitName : benefits.keySet()) {
-            System.out.println(benefitName + ": " + "-" + benefits.get(benefitName) + WON);
+            System.out.println(
+                    benefitName + ": " + "-" + MessageFormatter.getFormattedPrice(benefits.get(benefitName)) + WON);
         }
 
         System.out.println();
@@ -89,12 +92,13 @@ public class ConsoleOutput {
 
     public void printTotalDiscount(int totalDiscountPrice) {
         System.out.println(TitleMessage.TOTAL_BENEFIT_PRICE.getMessage());
-        System.out.println(totalDiscountPrice + WON + NEW_LINE);
+        System.out.println(MessageFormatter.getFormattedPrice(totalDiscountPrice) + WON + NEW_LINE);
     }
+
 
     public void printActualPaymentAmount(int actualPaymentAmount) {
         System.out.println(TitleMessage.ACTUAL_PAYMENT_AMOUNT.getMessage());
-        System.out.println(actualPaymentAmount + WON + NEW_LINE);
+        System.out.println(MessageFormatter.getFormattedPrice(actualPaymentAmount) + WON + NEW_LINE);
     }
 
     public void printEventBadge(String eventBadgeName) {
