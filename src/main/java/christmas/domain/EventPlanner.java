@@ -7,8 +7,6 @@ import christmas.dto.TotalBenefits;
 import christmas.util.OrderInputManager;
 import christmas.view.ConsoleInput;
 import christmas.view.ConsoleOutput;
-import christmas.view.InputValidator;
-import christmas.view.Parser;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -46,34 +44,35 @@ public class EventPlanner {
     }
 
     private Map<Menu, Integer> getOrders() {
-        while (true) {
-            try {
-                consoleOutput.menuAndCountRequest();
-                String input = consoleInput.getMenuAndCount();
-                return OrderInputManager.getValidOrder(input);
-            } catch (IllegalArgumentException e) {
-                consoleOutput.printInvalidOrderError(e.getMessage());
-            }
-        }
+        return (Map<Menu, Integer>) repeatedInput(
+                () -> consoleOutput.menuAndCountRequest(),
+                () -> {
+                    String input = consoleInput.getMenuAndCount();
+                    return OrderInputManager.getValidOrder(input);
+                },
+                (e) -> consoleOutput.printInvalidOrderError(e.getMessage())
+        );
     }
 
     private int getOrderDayOfMonth() {
-        return numberRepeatedInput((input) -> EventDayValidator.validate(input));
+        return (int) repeatedInput(
+                () -> consoleOutput.visitDayRequest(),
+                () -> {
+                    String input = consoleInput.getVisitDayOfMonth();
+                    return EventDayValidator.getValidDayOfMonth(input);
+                },
+                (e) -> consoleOutput.printInvalidDayError()
+        );
     }
 
-    private int numberRepeatedInput(InputValidator inputValidator) {
-        return (int) repeatedInput(inputValidator, (input) -> Integer.parseInt(input));
-    }
-
-    private Object repeatedInput(InputValidator inputValidator, Parser parser) {
+    private Object repeatedInput(RequestPrint requestPrint, ValidInputGetter validInputGetter,
+                                 ThrowInputError throwInputError) {
         while (true) {
             try {
-                consoleOutput.visitDayRequest();
-                String input = consoleInput.getVisitDayOfMonth();
-                inputValidator.validate(input);
-                return parser.parse(input);
+                requestPrint.print();
+                return validInputGetter.get();
             } catch (IllegalArgumentException e) {
-                consoleOutput.printInvalidDayError();
+                throwInputError.throwError(e);
             }
         }
     }

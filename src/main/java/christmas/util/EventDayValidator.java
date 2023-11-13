@@ -6,9 +6,11 @@ public class EventDayValidator {
     public static final String NUMERIC_REQUIRED = "날짜는 숫자여야 합니다";
     public static final String NOT_IN_EVENT_PERIOD = "이벤트 기간이 아닙니다";
 
-    public static void validate(String input) {
+    public static int getValidDayOfMonth(String input) {
         validateIsNumeric(input);
         validateEventPeriod(input);
+
+        return Integer.parseInt(input);
     }
 
     private static void validateIsNumeric(String input) {
