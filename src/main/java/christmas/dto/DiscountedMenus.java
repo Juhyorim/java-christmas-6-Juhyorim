@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BeneficialMenus {
+public class DiscountedMenus {
     private Map<Menu, Integer> discountedMenuPrices;
     private List<GiftProduct> giftProducts;
     private int discountedTotalPrice;
 
-    public BeneficialMenus() {
+    public DiscountedMenus() {
         this.discountedMenuPrices = new HashMap<>();
         this.giftProducts = new ArrayList<>();
         this.discountedTotalPrice = 0;
@@ -32,7 +32,7 @@ public class BeneficialMenus {
         addTotalDiscountPrice(price);
     }
 
-    public void add(BeneficialMenus discountedMenuForAdd) {
+    public void add(DiscountedMenus discountedMenuForAdd) {
         Map<Menu, Integer> discountedPriceForAdd = discountedMenuForAdd.discountedMenuPrices;
 
         for (Menu menu : discountedPriceForAdd.keySet()) {

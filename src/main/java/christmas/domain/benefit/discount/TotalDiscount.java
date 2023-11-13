@@ -1,26 +1,26 @@
 package christmas.domain.benefit.discount;
 
-import christmas.dto.BeneficialMenus;
+import christmas.dto.DiscountedMenus;
 import java.util.Map;
 
 public class TotalDiscount {
-    private Map<DiscountType, Integer> discountPrice;
-    private BeneficialMenus beneficialMenus;
+    private Map<DiscountType, Integer> menuAndDiscountPrice;
+    private DiscountedMenus discountedMenus;
 
-    public TotalDiscount(Map<DiscountType, Integer> discountPrice, BeneficialMenus beneficialMenus) {
-        this.discountPrice = discountPrice;
-        this.beneficialMenus = beneficialMenus;
+    public TotalDiscount(Map<DiscountType, Integer> menuAndDiscountPrice, DiscountedMenus discountedMenus) {
+        this.menuAndDiscountPrice = menuAndDiscountPrice;
+        this.discountedMenus = discountedMenus;
     }
 
-    public Map<DiscountType, Integer> getDiscountPrice() {
-        return discountPrice;
+    public Map<DiscountType, Integer> getMenuAndDiscountPrice() {
+        return menuAndDiscountPrice;
     }
 
-    public BeneficialMenus getBeneficialMenus() {
-        return beneficialMenus;
+    public DiscountedMenus getDiscountedMenus() {
+        return discountedMenus;
     }
 
     public int getTotalDiscountPrice() {
-        return beneficialMenus.getDiscountedTotalPrice();
+        return discountedMenus.getDiscountedTotalPrice();
     }
 }
