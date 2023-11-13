@@ -1,4 +1,4 @@
-package christmas.view;
+package christmas.view.message;
 
 public enum TitleMessage {
     ORDER_MENU("<주문 메뉴>"),

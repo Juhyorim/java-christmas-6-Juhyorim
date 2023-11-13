@@ -4,6 +4,9 @@ import christmas.domain.menu.Menu;
 import christmas.domain.Order;
 import christmas.domain.OrderedMenu;
 import christmas.domain.benefit.gift.GiftProduct;
+import christmas.view.message.ErrorMessage;
+import christmas.view.message.OutputMessage;
+import christmas.view.message.TitleMessage;
 import java.util.List;
 import java.util.Map;
 

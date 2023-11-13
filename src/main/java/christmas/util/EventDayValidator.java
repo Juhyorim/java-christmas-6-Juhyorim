@@ -1,4 +1,4 @@
-package christmas;
+package christmas.util;
 
 public class EventDayValidator {
     private static final int EVENT_START_DAY = 1;

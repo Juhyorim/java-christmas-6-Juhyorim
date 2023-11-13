@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.EventDayValidator;
+import christmas.util.EventDayValidator;
 import christmas.domain.benefit.BenefitManager;
 import christmas.domain.menu.Menu;
 import christmas.dto.TotalBenefits;
