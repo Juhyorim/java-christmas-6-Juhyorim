@@ -1,5 +1,6 @@
 package christmas.domain;
 
+import christmas.domain.menu.Menu;
 import java.time.LocalDate;
 import java.util.Map;
 

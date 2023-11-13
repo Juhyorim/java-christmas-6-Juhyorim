@@ -1,6 +1,6 @@
 package christmas.view;
 
-import christmas.domain.Menu;
+import christmas.domain.menu.Menu;
 import christmas.domain.Order;
 import christmas.domain.OrderedMenu;
 import christmas.domain.benefit.gift.GiftProduct;

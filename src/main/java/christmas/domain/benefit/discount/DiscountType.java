@@ -1,7 +1,7 @@
 package christmas.domain.benefit.discount;
 
-import christmas.domain.Menu;
-import christmas.domain.MenuGroup;
+import christmas.domain.menu.Menu;
+import christmas.domain.menu.MenuGroup;
 import christmas.domain.Order;
 import christmas.domain.OrderedMenu;
 import christmas.domain.benefit.BenefitApplier;

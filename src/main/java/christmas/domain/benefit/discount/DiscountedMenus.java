@@ -1,6 +1,6 @@
 package christmas.domain.benefit.discount;
 
-import christmas.domain.Menu;
+import christmas.domain.menu.Menu;
 import java.util.HashMap;
 import java.util.Map;
 

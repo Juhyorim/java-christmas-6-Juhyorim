@@ -1,6 +1,6 @@
 package christmas.domain.benefit.gift;
 
-import christmas.domain.Menu;
+import christmas.domain.menu.Menu;
 import christmas.domain.benefit.BenefitVerification;
 import christmas.dto.BenefitCheck;
 import christmas.dto.GiftCheck;

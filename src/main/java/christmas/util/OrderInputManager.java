@@ -1,7 +1,7 @@
 package christmas.util;
 
-import christmas.domain.Menu;
-import christmas.domain.MenuGroup;
+import christmas.domain.menu.Menu;
+import christmas.domain.menu.MenuGroup;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

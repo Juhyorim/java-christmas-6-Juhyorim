@@ -2,6 +2,7 @@ package christmas.domain;
 
 import christmas.EventDayValidator;
 import christmas.domain.benefit.BenefitManager;
+import christmas.domain.menu.Menu;
 import christmas.dto.TotalBenefits;
 import christmas.util.OrderInputManager;
 import christmas.view.ConsoleInput;

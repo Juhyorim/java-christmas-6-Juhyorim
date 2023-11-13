@@ -1,6 +1,6 @@
 package christmas.domain.benefit.discount;
 
-import christmas.domain.Menu;
+import christmas.domain.menu.Menu;
 import christmas.domain.Order;
 import java.time.LocalDate;
 import java.util.List;
