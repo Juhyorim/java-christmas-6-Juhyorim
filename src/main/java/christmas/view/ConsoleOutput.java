@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class ConsoleOutput {
     public static final String NONE = "없음";
-    public static final String NEW_LINE = "\n";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private static StringBuilder messageBuffer = new StringBuilder();
 
     private static void initMessageBuffer() {
@@ -48,13 +48,13 @@ public class ConsoleOutput {
 
     private void simplePrintMessage(String message) {
         initMessageBuffer();
-        messageBuffer.append(message + NEW_LINE);
+        messageBuffer.append(message + LINE_SEPARATOR);
 
         printMessage(messageBuffer);
     }
 
     public void printResultStart() {
-        simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + NEW_LINE);
+        simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + LINE_SEPARATOR);
     }
 
     public void printOrderMenu(Order orderForm) {
@@ -86,7 +86,7 @@ public class ConsoleOutput {
 
     private String giftProductsContents(PossibleGift giftProducts) {
         if (giftProducts.getGiftCount() == 0) {
-            return (NONE + NEW_LINE);
+            return (NONE + LINE_SEPARATOR);
         }
 
         StringBuilder giftProductsContents = new StringBuilder();
@@ -126,7 +126,7 @@ public class ConsoleOutput {
     public void printTotalDiscount(int totalDiscountPrice) { //TODO: 이름변경 printTotalBenefitPrice
         String title = TitleMessage.TOTAL_BENEFIT_PRICE.getMessage();
         String formatter = MessageFormat.TOTAL_BENEFIT_PRICE.getFormat();
-        String content = formatter.formatted(MessageFormatter.getFormattedPrice(totalDiscountPrice));
+        String content = formatter.formatted(MessageFormatter.getFormattedPrice(-totalDiscountPrice));
         printWithTitle(title, content.trim());
     }
 
@@ -147,9 +147,9 @@ public class ConsoleOutput {
 
     private void printWithTitle(String title, String content) {
         initMessageBuffer();
-        messageBuffer.append(title + NEW_LINE);
-        messageBuffer.append(content + NEW_LINE);
-        messageBuffer.append(NEW_LINE);
+        messageBuffer.append(title + LINE_SEPARATOR);
+        messageBuffer.append(content + LINE_SEPARATOR);
+        messageBuffer.append(LINE_SEPARATOR);
 
         printMessage(messageBuffer);
     }
