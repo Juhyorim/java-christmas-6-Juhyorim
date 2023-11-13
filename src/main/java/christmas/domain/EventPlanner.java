@@ -33,7 +33,7 @@ public class EventPlanner {
 
         consoleOutput.printGift(benefits.getGifts());
         consoleOutput.printBenefits(benefits.getBenefits());
-        consoleOutput.printTotalDiscount(benefits.getTotalBenefitPrice());
+        consoleOutput.printTotalBenefitPrice(benefits.getTotalBenefitPrice());
         consoleOutput.printActualPaymentAmount(benefits.getActualDiscountPrice(orderForm.getTotalPrice()));
         consoleOutput.printEventBadge(benefits.getEventBadge().getName());
     }

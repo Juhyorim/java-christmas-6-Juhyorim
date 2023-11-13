@@ -123,7 +123,7 @@ public class ConsoleOutput {
         return benefitContents.toString().trim();
     }
 
-    public void printTotalDiscount(int totalDiscountPrice) { //TODO: 이름변경 printTotalBenefitPrice
+    public void printTotalBenefitPrice(int totalDiscountPrice) {
         String title = TitleMessage.TOTAL_BENEFIT_PRICE.getMessage();
         String formatter = MessageFormat.TOTAL_BENEFIT_PRICE.getFormat();
         String content = formatter.formatted(MessageFormatter.getFormattedPrice(-totalDiscountPrice));
