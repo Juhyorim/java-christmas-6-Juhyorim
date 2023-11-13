@@ -1,6 +1,5 @@
 package christmas.domain.benefit.discount;
 
-import christmas.dto.DiscountedMenus;
 import java.util.Map;
 
 public class TotalDiscount {

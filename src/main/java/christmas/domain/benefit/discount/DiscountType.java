@@ -9,7 +9,6 @@ import christmas.domain.benefit.BenefitVerification;
 import christmas.dto.BenefitCheck;
 import christmas.util.WeekManager;
 import christmas.dto.DiscountCheck;
-import christmas.dto.DiscountedMenus;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public enum DiscountType {
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             if (MenuGroup.isInGroup(menu, MenuGroup.DESSERT)) {
-                discountedMenu.discountPrice(menu, WEEK_DAY_DISCOUNT_PRICE, orderedMenu.getCount(menu));
+                discountedMenu.discountEachMenu(menu, WEEK_DAY_DISCOUNT_PRICE, orderedMenu.getCount(menu));
             }
         }
 
@@ -79,7 +78,7 @@ public enum DiscountType {
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             if (MenuGroup.isInGroup(menu, MenuGroup.MAIN)) {
-                discountedMenu.discountPrice(menu, WEEKEND_DISCOUNT_PRICE, orderedMenu.getCount(menu));
+                discountedMenu.discountEachMenu(menu, WEEKEND_DISCOUNT_PRICE, orderedMenu.getCount(menu));
             }
         }
 

@@ -2,7 +2,7 @@ package christmas.domain;
 
 import christmas.domain.benefit.discount.DiscountType;
 import christmas.domain.benefit.discount.TotalDiscount;
-import christmas.dto.DiscountedMenus;
+import christmas.domain.benefit.discount.DiscountedMenus;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
