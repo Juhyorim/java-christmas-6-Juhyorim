@@ -7,15 +7,14 @@ import christmas.domain.OrderedMenu;
 import christmas.domain.benefit.gift.GiftProduct;
 import christmas.util.MessageFormatter;
 import christmas.view.message.ErrorMessage;
+import christmas.view.message.MessageFormat;
 import christmas.view.message.OutputMessage;
 import christmas.view.message.TitleMessage;
 import java.util.Map;
 
 public class ConsoleOutput {
-    public static final String WON = "원";
     public static final String NONE = "없음";
     public static final String NEW_LINE = "\n";
-    public static final String NUMBER_UNIT = "개";
     private static StringBuilder messageBuffer = new StringBuilder();
 
     private static void initMessageBuffer() {
@@ -64,7 +63,8 @@ public class ConsoleOutput {
 
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
-            orderMenuContents.append(menu.getName() + " " + orderedMenu.getCount(menu) + NUMBER_UNIT + NEW_LINE);
+            String formatter = MessageFormat.MENU.getFormat();
+            orderMenuContents.append(formatter.formatted(menu.getName(), orderedMenu.getCount(menu)));
         }
 
         printWithTitle(title, orderMenuContents.toString().trim());
@@ -72,15 +72,16 @@ public class ConsoleOutput {
 
     public void printTotalPriceBeforeDiscount(int totalPrice) {
         String title = TitleMessage.TOTAL_PRICE_BEFORE_DISCOUNT.getMessage();
-        String content = MessageFormatter.getFormattedPrice(totalPrice) + WON;
-        printWithTitle(title, content);
+        String formatter = MessageFormat.TOTAL_PRICE_BEFORE_DISCOUNT.getFormat();
+        String content = formatter.formatted(MessageFormatter.getFormattedPrice(totalPrice));
+        printWithTitle(title, content.trim());
     }
 
     public void printGift(PossibleGift giftProducts) {
         String title = TitleMessage.GIFT.getMessage();
         String contents = giftProductsContents(giftProducts);
 
-        printWithTitle(title, contents);
+        printWithTitle(title, contents.trim());
     }
 
     private String giftProductsContents(PossibleGift giftProducts) {
@@ -89,9 +90,11 @@ public class ConsoleOutput {
         }
 
         StringBuilder giftProductsContents = new StringBuilder();
+        String formatter = MessageFormat.GIFT.getFormat();
         for (GiftProduct giftProduct : giftProducts.getGiftProductsTypes()) {
-            giftProductsContents.append(giftProduct.getName() + " " + giftProducts.getCount(giftProduct) + NUMBER_UNIT);
-            giftProductsContents.append(NEW_LINE);
+            giftProductsContents.append(
+                    formatter.formatted(giftProduct.getName(), giftProducts.getCount(giftProduct))
+            );
         }
 
         return giftProductsContents.toString().trim();
@@ -100,7 +103,7 @@ public class ConsoleOutput {
     public void printBenefits(Map<String, Integer> benefits) {
         String title = TitleMessage.BENEFIT.getMessage();
         String benefitContents = getBenefitContents(benefits);
-        printWithTitle(title, benefitContents);
+        printWithTitle(title, benefitContents.trim());
     }
 
     private String getBenefitContents(Map<String, Integer> benefits) {
@@ -109,32 +112,37 @@ public class ConsoleOutput {
         }
 
         StringBuilder benefitContents = new StringBuilder();
+        String formatter = MessageFormat.BENEFIT.getFormat();
 
         for (String benefitName : benefits.keySet()) {
             benefitContents.append(
-                    benefitName + ": " + "-" + MessageFormatter.getFormattedPrice(benefits.get(benefitName)) + WON
-                            + NEW_LINE);
+                    formatter.formatted(benefitName, MessageFormatter.getFormattedPrice(benefits.get(benefitName)))
+            );
         }
 
         return benefitContents.toString().trim();
     }
 
-    public void printTotalDiscount(int totalDiscountPrice) {
+    public void printTotalDiscount(int totalDiscountPrice) { //TODO: 이름변경 printTotalBenefitPrice
         String title = TitleMessage.TOTAL_BENEFIT_PRICE.getMessage();
-        String content = MessageFormatter.getFormattedPrice(totalDiscountPrice) + WON;
-        printWithTitle(title, content);
+        String formatter = MessageFormat.TOTAL_BENEFIT_PRICE.getFormat();
+        String content = formatter.formatted(MessageFormatter.getFormattedPrice(totalDiscountPrice));
+        printWithTitle(title, content.trim());
     }
 
     public void printActualPaymentAmount(int actualPaymentAmount) {
         String title = TitleMessage.ACTUAL_PAYMENT_AMOUNT.getMessage();
-        String content = MessageFormatter.getFormattedPrice(actualPaymentAmount) + WON;
-        printWithTitle(title, content);
+        String formatter = MessageFormat.ACTUAL_PAYMENT_AMOUNT.getFormat();
+        String content = formatter.formatted(
+                MessageFormatter.getFormattedPrice(actualPaymentAmount)
+        );
+        printWithTitle(title, content.trim());
     }
 
     public void printEventBadge(String eventBadgeName) {
         String title = TitleMessage.EVENT_BADGE.getMessage();
         String content = eventBadgeName;
-        printWithTitle(title, content);
+        printWithTitle(title, content.trim());
     }
 
     private void printWithTitle(String title, String content) {
