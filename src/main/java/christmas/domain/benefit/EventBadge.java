@@ -1,10 +1,16 @@
 package christmas.domain.benefit;
 
 public enum EventBadge {
-    STAR,
-    TREE,
-    SANTA,
-    NONE;
+    STAR("별"),
+    TREE("트리"),
+    SANTA("산타"),
+    NONE("없음");
+
+    String name;
+
+    EventBadge(String name) {
+        this.name = name;
+    }
 
     public static EventBadge getBadge(int totalDiscountPrice) {
         if (totalDiscountPrice < 5_000) {
@@ -20,5 +26,9 @@ public enum EventBadge {
         }
 
         return SANTA;
+    }
+
+    public String getName() {
+        return name;
     }
 }

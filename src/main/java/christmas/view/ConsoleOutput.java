@@ -90,4 +90,9 @@ public class ConsoleOutput {
         System.out.println("<할인 후 예상 결제 금액>");
         System.out.println(actualPaymentAmount + "원\n");
     }
+
+    public void printEventBadge(String eventBadgeName) {
+        System.out.println("<12월 이벤트 배지>");
+        System.out.println(eventBadgeName);
+    }
 }
