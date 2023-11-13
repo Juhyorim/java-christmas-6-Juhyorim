@@ -52,7 +52,7 @@ public class EventPlanner {
                 String input = consoleInput.getMenuAndCount();
                 return OrderInputManager.getValidOrder(input);
             } catch (IllegalArgumentException e) {
-                consoleOutput.printInvalidDayError();
+                consoleOutput.printInvalidOrderError();
             }
         }
     }
