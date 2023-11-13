@@ -1,28 +1,30 @@
 package christmas.util;
 
+import christmas.view.message.ErrorMessage;
+import java.time.LocalDate;
+
 public class EventDayValidator {
-    private static final int EVENT_START_DAY = 1;
-    private static final int EVENT_LAST_DAY = 31;
-    public static final String NUMERIC_REQUIRED = "날짜는 숫자여야 합니다";
-    public static final String NOT_IN_EVENT_PERIOD = "이벤트 기간이 아닙니다";
+    private static final LocalDate EVENT_START_DAY = LocalDate.of(2023, 12, 1);
+    private static final LocalDate EVENT_LAST_DAY = LocalDate.of(2023, 12, 31);
+    private static final String NUMERIC_REGEX = "[0-9]+";
 
     public static int getValidDayOfMonth(String input) {
         validateIsNumeric(input);
-        validateEventPeriod(input);
+        validateDayOfMonth(input);
 
         return Integer.parseInt(input);
     }
 
     private static void validateIsNumeric(String input) {
-        if (input.matches("[0-9]+") == false) {
-            throw new IllegalArgumentException(NUMERIC_REQUIRED);
+        if (input.matches(NUMERIC_REGEX) == false) {
+            throw new IllegalArgumentException(ErrorMessage.DATE_NUMERIC_REQUIRED.getMessage());
         }
     }
 
-    private static void validateEventPeriod(String input) {
-        Integer inputNumber = Integer.parseInt(input);
-        if (inputNumber < EVENT_START_DAY || inputNumber > EVENT_LAST_DAY) {
-            throw new IllegalArgumentException(NOT_IN_EVENT_PERIOD);
+    private static void validateDayOfMonth(String dayOfMonthPeriod) {
+        Integer inputNumber = Integer.parseInt(dayOfMonthPeriod);
+        if (inputNumber < EVENT_START_DAY.getDayOfMonth() || inputNumber > EVENT_LAST_DAY.getDayOfMonth()) {
+            throw new IllegalArgumentException(ErrorMessage.NOT_IN_EVENT_PERIOD.getMessage());
         }
     }
 }

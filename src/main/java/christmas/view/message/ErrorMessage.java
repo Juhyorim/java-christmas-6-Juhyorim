@@ -8,7 +8,9 @@ public enum ErrorMessage {
     INVALID_MENU_COUNT("메뉴 개수가 올바르지 않습니다."),
     UNDER_20_REQUIRED("메뉴 개수는 20개 이하여야합니다."),
     DUPLICATED_MENU_NOT_ALLOWED("메뉴는 중복되어선 안됩니다."),
-    INVALID_INPUT_FORM("입력형식이 올바르지 않습니다");
+    INVALID_INPUT_FORM("입력형식이 올바르지 않습니다"),
+    DATE_NUMERIC_REQUIRED("날짜는 숫자여야 합니다"),
+    NOT_IN_EVENT_PERIOD("이벤트 기간이 아닙니다");
 
     private static final String ERROR_PREFIX = "[ERROR] ";
 

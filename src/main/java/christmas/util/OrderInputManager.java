@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class OrderInputManager {
     private static final int MINIMUN_ORDER_COUNT = 20;
-    public static final char MENU_AND_COUNT_DELIMITER = '-';
-    public static final char MENU_DELIMITER = ',';
-    public static final String NUMERIC_REGEX = "[0-9]+";
+    private static final char MENU_AND_COUNT_DELIMITER = '-';
+    private static final char MENU_DELIMITER = ',';
+    private static final String NUMERIC_REGEX = "[0-9]+";
 
     public static Map<Menu, Integer> getValidOrder(String input) {
         List<String> menuCountBundle = menuCountBundleSplit(input);

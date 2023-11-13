@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import christmas.util.EventDayValidator;
+import christmas.view.message.ErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -22,7 +23,7 @@ class EventDayValidatorTest {
     void notNumericException(String dayOfMonth) {
         assertThatThrownBy(() -> EventDayValidator.getValidDayOfMonth(dayOfMonth))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(EventDayValidator.NUMERIC_REQUIRED);
+                .hasMessageContaining(ErrorMessage.DATE_NUMERIC_REQUIRED.getMessage());
     }
 
     @ParameterizedTest
@@ -31,6 +32,6 @@ class EventDayValidatorTest {
     void notInEventPeriodException(String dayOfMonth) {
         assertThatThrownBy(() -> EventDayValidator.getValidDayOfMonth(dayOfMonth))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(EventDayValidator.NOT_IN_EVENT_PERIOD);
+                .hasMessageContaining(ErrorMessage.NOT_IN_EVENT_PERIOD.getMessage());
     }
 }
