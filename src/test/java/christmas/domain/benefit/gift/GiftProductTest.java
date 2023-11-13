@@ -21,6 +21,6 @@ class GiftProductTest {
         GiftCheck giftCheck = new GiftCheck(totalPrice);
         PossibleGift possibleGift = GiftProduct.getPossibleGift(giftCheck);
 
-        assertThat(possibleGift.giftProducts.isEmpty()).isEqualTo(canGetGift);
+        assertThat(possibleGift.giftProductCount.isEmpty()).isEqualTo(canGetGift);
     }
 }

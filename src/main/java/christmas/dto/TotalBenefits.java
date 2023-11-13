@@ -6,10 +6,11 @@ import christmas.domain.benefit.gift.GiftProduct;
 import christmas.domain.benefit.discount.TotalDiscount;
 import christmas.domain.benefit.gift.PossibleGift;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TotalBenefits {
+    public static final String GIFT_EVENT_NAME = "증정이벤트";
+
     private int totalBenefitPrice = 0;
     private int discountPrice = 0;
     private int giftPrice = 0;
@@ -62,9 +63,10 @@ public class TotalBenefits {
             benefits.put(discountType.getName(), benefitByDiscountType.get(discountType));
         }
 
-        List<GiftProduct> giftProducts = gifts.getGiftProducts();
-        for (GiftProduct giftProduct : giftProducts) {
-            benefits.put("증정이벤트", benefits.getOrDefault(giftProduct, 0) + giftProduct.getPrice());
+        for (GiftProduct giftProduct : gifts.getGiftProductsTypes()) {
+            benefits.put(
+                    GIFT_EVENT_NAME,
+                    benefits.getOrDefault(giftProduct, 0) + (giftProduct.getPrice() * gifts.getCount(giftProduct)));
         }
 
         return benefits;

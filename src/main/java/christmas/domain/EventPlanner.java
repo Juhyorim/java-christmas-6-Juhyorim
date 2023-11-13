@@ -31,7 +31,7 @@ public class EventPlanner {
         consoleOutput.printOrderMenu(orderForm);
         consoleOutput.printTotalPriceBeforeDiscount(orderForm.getTotalPrice());
 
-        consoleOutput.printGift(benefits.getGifts().getGiftProducts());
+        consoleOutput.printGift(benefits.getGifts());
         consoleOutput.printBenefits(benefits.getBenefits());
         consoleOutput.printTotalDiscount(benefits.getTotalBenefitPrice());
         consoleOutput.printActualPaymentAmount(benefits.getActualDiscountPrice(orderForm.getTotalPrice()));

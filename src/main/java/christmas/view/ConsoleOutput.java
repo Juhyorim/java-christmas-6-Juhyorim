@@ -1,5 +1,6 @@
 package christmas.view;
 
+import christmas.domain.benefit.gift.PossibleGift;
 import christmas.domain.menu.Menu;
 import christmas.domain.Order;
 import christmas.domain.OrderedMenu;
@@ -8,7 +9,6 @@ import christmas.util.MessageFormatter;
 import christmas.view.message.ErrorMessage;
 import christmas.view.message.OutputMessage;
 import christmas.view.message.TitleMessage;
-import java.util.List;
 import java.util.Map;
 
 public class ConsoleOutput {
@@ -76,21 +76,22 @@ public class ConsoleOutput {
         printWithTitle(title, content);
     }
 
-    public void printGift(List<GiftProduct> giftProducts) {
+    public void printGift(PossibleGift giftProducts) {
         String title = TitleMessage.GIFT.getMessage();
         String contents = giftProductsContents(giftProducts);
 
         printWithTitle(title, contents);
     }
 
-    private String giftProductsContents(List<GiftProduct> giftProducts) {
-        if (giftProducts.size() == 0) {
+    private String giftProductsContents(PossibleGift giftProducts) {
+        if (giftProducts.getGiftCount() == 0) {
             return (NONE + NEW_LINE);
         }
 
         StringBuilder giftProductsContents = new StringBuilder();
-        for (GiftProduct giftProduct : giftProducts) {
-            giftProductsContents.append(giftProduct.getName() + " " + "1" + NUMBER_UNIT + NEW_LINE);
+        for (GiftProduct giftProduct : giftProducts.getGiftProductsTypes()) {
+            giftProductsContents.append(giftProduct.getName() + " " + giftProducts.getCount(giftProduct) + NUMBER_UNIT);
+            giftProductsContents.append(NEW_LINE);
         }
 
         return giftProductsContents.toString().trim();
