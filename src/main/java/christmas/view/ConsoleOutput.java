@@ -8,7 +8,6 @@ import christmas.util.MessageFormatter;
 import christmas.view.message.ErrorMessage;
 import christmas.view.message.OutputMessage;
 import christmas.view.message.TitleMessage;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -17,92 +16,136 @@ public class ConsoleOutput {
     public static final String NONE = "없음";
     public static final String NEW_LINE = "\n";
     public static final String NUMBER_UNIT = "개";
+    private static StringBuilder messageBuffer = new StringBuilder();
+
+    private static void initMessageBuffer() {
+        messageBuffer.setLength(0);
+    }
 
     public void greeting() {
-        System.out.println(OutputMessage.GREETING_MESSAGE.getMessage());
+        simplePrintMessage(OutputMessage.GREETING_MESSAGE.getMessage());
     }
 
     public void visitDayRequest() {
-        System.out.println(OutputMessage.VISIT_DAY_REQUEST.getMessage());
+        simplePrintMessage(OutputMessage.VISIT_DAY_REQUEST.getMessage());
     }
 
     public void menuAndCountRequest() {
-        System.out.println(OutputMessage.MENU_AND_COUNT_REQUEST.getMessage());
+        simplePrintMessage(OutputMessage.MENU_AND_COUNT_REQUEST.getMessage());
     }
 
     public void printInvalidOrderError(String errorMessage) {
         if (errorMessage.equals(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED)) {
-            System.out.println(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED.getMessage());
+            simplePrintMessage(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED.getMessage());
             return;
         }
 
-        System.out.println(ErrorMessage.INVALID_ORDER.getMessage());
+        simplePrintMessage(ErrorMessage.INVALID_ORDER.getMessage());
     }
 
     public void printInvalidDayError() {
-        System.out.println(ErrorMessage.INVALID_DAY.getMessage());
+        simplePrintMessage(ErrorMessage.INVALID_DAY.getMessage());
+    }
+
+    private void simplePrintMessage(String message) {
+        initMessageBuffer();
+        messageBuffer.append(message + NEW_LINE);
+
+        printMessage(messageBuffer);
     }
 
     public void printResultStart() {
-        System.out.println(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + NEW_LINE);
+        simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + NEW_LINE);
     }
 
     public void printOrderMenu(Order orderForm) {
-        System.out.println(TitleMessage.ORDER_MENU.getMessage());
+        String title = TitleMessage.ORDER_MENU.getMessage();
+        StringBuilder orderMenuContents = new StringBuilder();
+
         OrderedMenu orderedMenu = orderForm.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
-            System.out.println(menu.getName() + " " + orderedMenu.getCount(menu) + NUMBER_UNIT);
+            orderMenuContents.append(menu.getName() + " " + orderedMenu.getCount(menu) + NUMBER_UNIT + NEW_LINE);
         }
-        System.out.println();
+
+        printWithTitle(title, orderMenuContents.toString().trim());
     }
 
     public void printTotalPriceBeforeDiscount(int totalPrice) {
-        System.out.println(TitleMessage.TOTAL_PRICE_BEFORE_DISCOUNT.getMessage());
-        System.out.println("" + MessageFormatter.getFormattedPrice(totalPrice) + WON + NEW_LINE);
+        String title = TitleMessage.TOTAL_PRICE_BEFORE_DISCOUNT.getMessage();
+        String content = MessageFormatter.getFormattedPrice(totalPrice) + WON;
+        printWithTitle(title, content);
     }
 
     public void printGift(List<GiftProduct> giftProducts) {
-        System.out.println(TitleMessage.GIFT.getMessage());
+        String title = TitleMessage.GIFT.getMessage();
+        String contents = giftProductsContents(giftProducts);
+
+        printWithTitle(title, contents);
+    }
+
+    private String giftProductsContents(List<GiftProduct> giftProducts) {
         if (giftProducts.size() == 0) {
-            System.out.println(NONE + NEW_LINE);
-            return;
+            return (NONE + NEW_LINE);
         }
 
+        StringBuilder giftProductsContents = new StringBuilder();
         for (GiftProduct giftProduct : giftProducts) {
-            System.out.println(giftProduct.getName() + " " + "1" + NUMBER_UNIT);
+            giftProductsContents.append(giftProduct.getName() + " " + "1" + NUMBER_UNIT + NEW_LINE);
         }
 
-        System.out.println();
+        return giftProductsContents.toString().trim();
     }
 
     public void printBenefits(Map<String, Integer> benefits) {
-        System.out.println(TitleMessage.BENEFIT.getMessage());
+        String title = TitleMessage.BENEFIT.getMessage();
+        String benefitContents = getBenefitContents(benefits);
+        printWithTitle(title, benefitContents);
+    }
+
+    private String getBenefitContents(Map<String, Integer> benefits) {
         if (benefits.size() == 0) {
-            System.out.println(NONE + NEW_LINE);
-            return;
+            return NONE;
         }
+
+        StringBuilder benefitContents = new StringBuilder();
 
         for (String benefitName : benefits.keySet()) {
-            System.out.println(
-                    benefitName + ": " + "-" + MessageFormatter.getFormattedPrice(benefits.get(benefitName)) + WON);
+            benefitContents.append(
+                    benefitName + ": " + "-" + MessageFormatter.getFormattedPrice(benefits.get(benefitName)) + WON
+                            + NEW_LINE);
         }
 
-        System.out.println();
+        return benefitContents.toString().trim();
     }
 
     public void printTotalDiscount(int totalDiscountPrice) {
-        System.out.println(TitleMessage.TOTAL_BENEFIT_PRICE.getMessage());
-        System.out.println(MessageFormatter.getFormattedPrice(totalDiscountPrice) + WON + NEW_LINE);
+        String title = TitleMessage.TOTAL_BENEFIT_PRICE.getMessage();
+        String content = MessageFormatter.getFormattedPrice(totalDiscountPrice) + WON;
+        printWithTitle(title, content);
     }
 
-
     public void printActualPaymentAmount(int actualPaymentAmount) {
-        System.out.println(TitleMessage.ACTUAL_PAYMENT_AMOUNT.getMessage());
-        System.out.println(MessageFormatter.getFormattedPrice(actualPaymentAmount) + WON + NEW_LINE);
+        String title = TitleMessage.ACTUAL_PAYMENT_AMOUNT.getMessage();
+        String content = MessageFormatter.getFormattedPrice(actualPaymentAmount) + WON;
+        printWithTitle(title, content);
     }
 
     public void printEventBadge(String eventBadgeName) {
-        System.out.println(TitleMessage.EVENT_BADGE.getMessage());
-        System.out.println(eventBadgeName);
+        String title = TitleMessage.EVENT_BADGE.getMessage();
+        String content = eventBadgeName;
+        printWithTitle(title, content);
+    }
+
+    private void printWithTitle(String title, String content) {
+        initMessageBuffer();
+        messageBuffer.append(title + NEW_LINE);
+        messageBuffer.append(content + NEW_LINE);
+        messageBuffer.append(NEW_LINE);
+
+        printMessage(messageBuffer);
+    }
+
+    private void printMessage(StringBuilder messageBuffer) {
+        System.out.print(messageBuffer);
     }
 }
