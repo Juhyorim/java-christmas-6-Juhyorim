@@ -4,7 +4,8 @@ import christmas.domain.menu.Menu;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiscountedMenus {
+//할인된 메뉴와 할인금액을 저장
+public class DiscountedMenus { 
     private Map<Menu, Integer> discountedMenus;
     private int discountedTotalPrice;
 
