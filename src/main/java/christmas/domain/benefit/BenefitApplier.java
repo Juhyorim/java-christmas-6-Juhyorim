@@ -4,5 +4,5 @@ import christmas.domain.Order;
 import christmas.domain.benefit.discount.DiscountedMenus;
 
 public interface BenefitApplier {
-    DiscountedMenus apply(Order orderForm);
+    DiscountedMenus apply(Order order);
 }

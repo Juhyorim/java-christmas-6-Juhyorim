@@ -16,10 +16,10 @@ public class Order {
     }
 
     public static Order make(LocalDate orderDate, Map<Menu, Integer> orders) {
-        Order orderForm = new Order(orderDate);
-        orderForm.addMenus(orders);
+        Order order = new Order(orderDate);
+        order.addMenus(orders);
 
-        return orderForm;
+        return order;
     }
 
     public void addMenu(Menu menu, int count) {

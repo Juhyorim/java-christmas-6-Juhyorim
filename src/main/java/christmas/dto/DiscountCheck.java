@@ -12,8 +12,8 @@ public class DiscountCheck implements BenefitCheck {
         this.date = date;
     }
 
-    public static DiscountCheck make(Order orderForm) {
-        return new DiscountCheck(orderForm.getTotalPrice(), orderForm.getOrderDate());
+    public static DiscountCheck make(Order order) {
+        return new DiscountCheck(order.getTotalPrice(), order.getOrderDate());
     }
 
     public int getTotalPrice() {

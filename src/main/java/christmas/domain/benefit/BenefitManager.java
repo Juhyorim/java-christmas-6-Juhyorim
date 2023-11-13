@@ -12,9 +12,9 @@ import christmas.dto.GiftCheck;
 import java.util.List;
 
 public class BenefitManager {
-    public TotalBenefits getBenefits(Order orderForm) {
-        TotalDiscount totalDiscount = getDiscountBenefit(orderForm);
-        PossibleGift possibleGift = getGift(orderForm.getTotalPrice());
+    public TotalBenefits getBenefits(Order order) {
+        TotalDiscount totalDiscount = getDiscountBenefit(order);
+        PossibleGift possibleGift = getGift(order.getTotalPrice());
 
         TotalBenefits totalBenefits = new TotalBenefits(totalDiscount, possibleGift);
 
@@ -29,11 +29,11 @@ public class BenefitManager {
         return GiftProduct.getPossibleGift(giftCheckDto);
     }
 
-    private static TotalDiscount getDiscountBenefit(Order orderForm) {
-        DiscountCheck benefitCheckDto = DiscountCheck.make(orderForm);
+    private static TotalDiscount getDiscountBenefit(Order order) {
+        DiscountCheck benefitCheckDto = DiscountCheck.make(order);
         List<DiscountType> possibleDiscount = DiscountType.getPossibleDiscount(benefitCheckDto);
 
-        TotalDiscount totalBenefit = DiscountCalculator.applyDiscount(orderForm, possibleDiscount);
+        TotalDiscount totalBenefit = DiscountCalculator.applyDiscount(order, possibleDiscount);
         return totalBenefit;
     }
 }

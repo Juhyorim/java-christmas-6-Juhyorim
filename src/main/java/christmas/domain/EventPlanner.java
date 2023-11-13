@@ -18,29 +18,59 @@ public class EventPlanner {
     public void startOrder() {
         consoleOutput.greeting();
         int orderDayOfMonth = getOrderDayOfMonth();
-        Order orderForm = getValidOrderForm(orderDayOfMonth);
-        TotalBenefits benefits = benefitManager.getBenefits(orderForm);
+        Order order = getValidOrder(orderDayOfMonth);
+        TotalBenefits benefits = benefitManager.getBenefits(order);
 
-        printResult(orderForm, benefits);
+        printResult(order, benefits);
     }
 
-    private void printResult(Order orderForm, TotalBenefits benefits) {
+    private void printResult(Order order, TotalBenefits benefits) {
         consoleOutput.printResultStart();
-        consoleOutput.printOrderMenu(orderForm);
-        consoleOutput.printTotalPriceBeforeDiscount(orderForm.getTotalPrice());
-
-        consoleOutput.printGift(benefits.getGifts());
-        consoleOutput.printBenefits(benefits.getBenefits());
-        consoleOutput.printTotalBenefitPrice(benefits.getTotalBenefitPrice());
-        consoleOutput.printActualPaymentAmount(benefits.getActualDiscountPrice(orderForm.getTotalPrice()));
-        consoleOutput.printEventBadge(benefits.getEventBadge().getName());
+        printOrderMenu(order);
+        printTotalPriceBeforeDiscount(order);
+        printGift(benefits);
+        printBenefits(benefits);
+        printTotalBenefitPrice(benefits);
+        printActualPaymentAmount(order, benefits);
+        printEventBadge(benefits);
     }
 
-    private Order getValidOrderForm(int orderDayOfMonth) {
-        Map<Menu, Integer> orders = getOrders();
-        Order orderForm = Order.make(LocalDate.of(2023, 12, orderDayOfMonth), orders);
+    private void printOrderMenu(Order order) {
+        consoleOutput.printOrderMenu(order);
+    }
 
-        return orderForm;
+    private void printTotalPriceBeforeDiscount(Order order) {
+        consoleOutput.printTotalPriceBeforeDiscount(order.getTotalPrice());
+    }
+
+    private void printTotalBenefitPrice(TotalBenefits benefits) {
+        consoleOutput.printTotalBenefitPrice(benefits.getTotalBenefitPrice());
+    }
+
+    private void printGift(TotalBenefits benefits) {
+        consoleOutput.printGift(benefits.getGifts());
+    }
+
+    private void printBenefits(TotalBenefits benefits) {
+        consoleOutput.printBenefits(benefits.getBenefits());
+    }
+
+    private void printActualPaymentAmount(Order order, TotalBenefits benefits) {
+        int paymentAmountBefore = order.getTotalPrice();
+        int actualDiscountPrice = benefits.getActualDiscountPrice(paymentAmountBefore);
+        consoleOutput.printActualPaymentAmount(actualDiscountPrice);
+    }
+
+    private void printEventBadge(TotalBenefits benefits) {
+        String eventBadgeName = benefits.getEventBadge().getName();
+        consoleOutput.printEventBadge(eventBadgeName);
+    }
+
+    private Order getValidOrder(int orderDayOfMonth) {
+        Map<Menu, Integer> orders = getOrders();
+        Order order = Order.make(LocalDate.of(2023, 12, orderDayOfMonth), orders);
+
+        return order;
     }
 
     private Map<Menu, Integer> getOrders() {

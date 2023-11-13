@@ -57,11 +57,11 @@ public class ConsoleOutput {
         simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + LINE_SEPARATOR);
     }
 
-    public void printOrderMenu(Order orderForm) {
+    public void printOrderMenu(Order order) {
         String title = TitleMessage.ORDER_MENU.getMessage();
         StringBuilder orderMenuContents = new StringBuilder();
 
-        OrderedMenu orderedMenu = orderForm.getMenus();
+        OrderedMenu orderedMenu = order.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             String formatter = MessageFormat.MENU.getFormat();
             orderMenuContents.append(formatter.formatted(menu.getName(), orderedMenu.getCount(menu)));

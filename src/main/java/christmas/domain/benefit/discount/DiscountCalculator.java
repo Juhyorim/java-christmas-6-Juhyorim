@@ -9,12 +9,12 @@ public class DiscountCalculator {
     private DiscountCalculator() {
     }
 
-    public static TotalDiscount applyDiscount(Order orderForm, List<DiscountType> discounts) {
+    public static TotalDiscount applyDiscount(Order order, List<DiscountType> discounts) {
         DiscountedMenus discountedMenu = new DiscountedMenus();
         Map<DiscountType, Integer> discountPriceByBenefit = new HashMap<>();
 
         for (DiscountType discountType : discounts) {
-            DiscountedMenus apply = DiscountType.apply(discountType, orderForm);
+            DiscountedMenus apply = DiscountType.apply(discountType, order);
             discountedMenu.add(apply);
             discountPriceByBenefit.put(discountType, apply.getDiscountedTotalPrice());
         }

@@ -18,22 +18,22 @@ public enum DiscountType {
     CHRISTMAS_D_DAY(
             "크리스마스 디데이 할인",
             (benefitCheck) -> isChristmasSeason(benefitCheck),
-            (orderForm) -> applyChristmasDDayDiscount(orderForm)
+            (order) -> applyChristmasDDayDiscount(order)
     ),
     WEEK_DAY(
             "평일 할인",
             (benefitCheck) -> isWeekDay(benefitCheck),
-            (orderForm) -> applyWeekdayDiscount(orderForm)
+            (order) -> applyWeekdayDiscount(order)
     ),
     WEEKEND(
             "특별 할인",
             (benefitCheck) -> isWeekend(benefitCheck),
-            (orderForm) -> applyWeekendDiscount(orderForm)
+            (order) -> applyWeekendDiscount(order)
     ),
     SPECIAL(
             "특별 할인",
             (benefitCheck) -> isSpecialDay(benefitCheck),
-            (orderForm) -> applySpecialDiscount());
+            (order) -> applySpecialDiscount());
 
     private static final int MINIMUM_AMOUNT = 10000;
     private static final List<Integer> SPECIAL_DAYS = List.of(3, 10, 17, 24, 25, 31);
@@ -53,17 +53,17 @@ public enum DiscountType {
         this.benefitApplier = benefitApplier;
     }
 
-    private static DiscountedMenus applyChristmasDDayDiscount(Order orderForm) {
+    private static DiscountedMenus applyChristmasDDayDiscount(Order order) {
         DiscountedMenus discountedMenu = new DiscountedMenus();
-        int discountTotalPrice = 1000 + (orderForm.getOrderDate().getDayOfMonth() - 1) * 100;
+        int discountTotalPrice = 1000 + (order.getOrderDate().getDayOfMonth() - 1) * 100;
         discountedMenu.discountTotalPrice(discountTotalPrice);
 
         return discountedMenu;
     }
 
-    private static DiscountedMenus applyWeekdayDiscount(Order orderForm) {
+    private static DiscountedMenus applyWeekdayDiscount(Order order) {
         DiscountedMenus discountedMenu = new DiscountedMenus();
-        OrderedMenu orderedMenu = orderForm.getMenus();
+        OrderedMenu orderedMenu = order.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             if (MenuGroup.isInGroup(menu, MenuGroup.DESSERT)) {
                 discountedMenu.discountEachMenu(menu, WEEK_DAY_DISCOUNT_PRICE, orderedMenu.getCount(menu));
@@ -73,9 +73,9 @@ public enum DiscountType {
         return discountedMenu;
     }
 
-    private static DiscountedMenus applyWeekendDiscount(Order orderForm) {
+    private static DiscountedMenus applyWeekendDiscount(Order order) {
         DiscountedMenus discountedMenu = new DiscountedMenus();
-        OrderedMenu orderedMenu = orderForm.getMenus();
+        OrderedMenu orderedMenu = order.getMenus();
         for (Menu menu : orderedMenu.getKindOfMenu()) {
             if (MenuGroup.isInGroup(menu, MenuGroup.MAIN)) {
                 discountedMenu.discountEachMenu(menu, WEEKEND_DISCOUNT_PRICE, orderedMenu.getCount(menu));
@@ -172,8 +172,8 @@ public enum DiscountType {
         return totalPrice < MINIMUM_AMOUNT;
     }
 
-    public static DiscountedMenus apply(DiscountType benefitType, Order orderForm) {
-        return benefitType.benefitApplier.apply(orderForm);
+    public static DiscountedMenus apply(DiscountType benefitType, Order order) {
+        return benefitType.benefitApplier.apply(order);
     }
 
     private boolean canApply(DiscountCheck benefitCheckDto) {
