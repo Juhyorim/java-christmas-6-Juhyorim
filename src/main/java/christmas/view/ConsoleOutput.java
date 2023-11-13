@@ -11,9 +11,6 @@ public class ConsoleOutput {
     public static final String GREETING_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
     public static final String VISIT_DAY_REQUEST = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
     public static final String MENU_AND_COUNT_REQUEST = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
-    public static final String ERROR_PREFIX = "[ERROR] ";
-    public static final String INVALID_DAY = "유효하지 않은 날짜입니다. 다시 입력해 주세요.";
-    public static final String INVALID_ORDER = "유효하지 않은 주문입니다. 다시 입력해 주세요.";
     public static final String PRINT_RESULT_START_MESSAGE = "12월 26일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
 
     public void greeting() {
@@ -28,16 +25,17 @@ public class ConsoleOutput {
         System.out.println(MENU_AND_COUNT_REQUEST);
     }
 
-    public void printError(String errorMessage) {
-        System.out.println(ERROR_PREFIX + errorMessage);
-    }
+    public void printInvalidOrderError(String errorMessage) {
+        if (errorMessage.equals(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED)) {
+            System.out.println(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED.getMessage());
+            return;
+        }
 
-    public void printInvalidOrderError() {
-        printError(INVALID_ORDER);
+        System.out.println(ErrorMessage.INVALID_ORDER.getMessage());
     }
 
     public void printInvalidDayError() {
-        printError(INVALID_DAY);
+        System.out.println(ErrorMessage.INVALID_DAY.getMessage());
     }
 
     public void printResultStart() {
