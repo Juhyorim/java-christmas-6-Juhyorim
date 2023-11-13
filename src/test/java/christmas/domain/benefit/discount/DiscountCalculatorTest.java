@@ -16,13 +16,12 @@ class DiscountCalculatorTest {
     @DisplayName("크리스마스 할인 적용 테스트")
     void christmasDDay(int count) {
         //given
-        DiscountCalculator discountCalculator = new DiscountCalculator();
         Order orderForm = new Order(LocalDate.of(2023, 12, 1));
 
         //when
         orderForm.addMenu(Menu.CHRISTMAS_PASTA, count);
         List<DiscountType> benefits = List.of(DiscountType.CHRISTMAS_D_DAY);
-        DiscountedMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
+        DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
@@ -32,7 +31,6 @@ class DiscountCalculatorTest {
     @DisplayName("크리스마스 할인 적용 종류 여러개 테스트")
     void christmasDDayMany() {
         //given
-        DiscountCalculator discountCalculator = new DiscountCalculator();
         Order orderForm = new Order(LocalDate.of(2023, 12, 1));
 
         //when
@@ -40,7 +38,7 @@ class DiscountCalculatorTest {
         orderForm.addMenu(Menu.SEAFOOD_PASTA, 1);
         orderForm.addMenu(Menu.CAESAR_SALAD, 1);
         List<DiscountType> benefits = List.of(DiscountType.CHRISTMAS_D_DAY);
-        DiscountedMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
+        DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
@@ -51,13 +49,12 @@ class DiscountCalculatorTest {
     @DisplayName("평일 할인만 적용 테스트")
     void weekDay(int count) {
         //given
-        DiscountCalculator discountCalculator = new DiscountCalculator();
         Order orderForm = new Order(LocalDate.of(2023, 12, 4));
 
         //when
         orderForm.addMenu(Menu.ICE_CREAM, count);
         List<DiscountType> benefits = List.of(DiscountType.WEEK_DAY);
-        DiscountedMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
+        DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.ICE_CREAM)).isEqualTo(2023 * count);
@@ -68,13 +65,12 @@ class DiscountCalculatorTest {
     @DisplayName("주말 할인만 적용 테스트")
     void weekendBenefitOnly(int count) {
         //given
-        DiscountCalculator discountCalculator = new DiscountCalculator();
         Order orderForm = new Order(LocalDate.of(2023, 12, 8));
 
         //when
         orderForm.addMenu(Menu.T_BONE_STEAK, count);
         List<DiscountType> benefits = List.of(DiscountType.WEEKEND);
-        DiscountedMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
+        DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedPrice(Menu.T_BONE_STEAK)).isEqualTo(2023 * count);
@@ -84,16 +80,14 @@ class DiscountCalculatorTest {
     @DisplayName("스패셜 할인만 적용 테스트")
     void specialBenefitOnly() {
         //given
-        DiscountCalculator discountCalculator = new DiscountCalculator();
         Order orderForm = new Order(LocalDate.of(2023, 12, 10));
 
         //when
         orderForm.addMenu(Menu.T_BONE_STEAK, 2);
         List<DiscountType> benefits = List.of(DiscountType.SPECIAL);
-        DiscountedMenus discountedMenu = discountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
+        DiscountedMenus discountedMenu = DiscountCalculator.applyDiscount(orderForm, benefits).getDiscountedMenus();
 
         //then
         Assertions.assertThat(discountedMenu.getDiscountedTotalPrice()).isEqualTo(1000);
     }
-
 }

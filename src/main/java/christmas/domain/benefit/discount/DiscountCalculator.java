@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public class DiscountCalculator {
+    private DiscountCalculator() {
+    }
+
     public static TotalDiscount applyDiscount(Order orderForm, List<DiscountType> discounts) {
         DiscountedMenus discountedMenu = new DiscountedMenus();
         Map<DiscountType, Integer> discountPriceByBenefit = new HashMap<>();
