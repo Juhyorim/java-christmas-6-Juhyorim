@@ -4,8 +4,6 @@ import java.time.DayOfWeek;
 import java.util.List;
 
 public enum WeekManager {
-    WEEKDAY(List.of(DayOfWeek.SUNDAY, DayOfWeek.MONDAY, DayOfWeek.TUESDAY,
-            DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY)),
     WEEKEND(List.of(DayOfWeek.FRIDAY, DayOfWeek.SATURDAY));
 
     private List<DayOfWeek> includedDayOfWeeks;
@@ -23,10 +21,6 @@ public enum WeekManager {
     }
 
     public static boolean isWeekend(DayOfWeek dayOfWeek) {
-        if (WEEKEND.includedDayOfWeeks.contains(dayOfWeek)) {
-            return true;
-        }
-
-        return false;
+        return !isWeekday(dayOfWeek);
     }
 }

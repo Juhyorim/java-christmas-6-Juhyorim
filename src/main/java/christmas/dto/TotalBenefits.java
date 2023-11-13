@@ -38,10 +38,6 @@ public class TotalBenefits {
         totalBenefitPrice = discountPrice + giftPrice;
     }
 
-    public TotalDiscount getTotalDiscount() {
-        return totalDiscount;
-    }
-
     public PossibleGift getGifts() {
         return gifts;
     }
@@ -56,14 +52,6 @@ public class TotalBenefits {
 
     public int getTotalBenefitPrice() {
         return totalBenefitPrice;
-    }
-
-    public int getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public int getGiftPrice() {
-        return giftPrice;
     }
 
     public Map<String, Integer> getBenefits() {
