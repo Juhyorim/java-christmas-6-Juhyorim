@@ -76,8 +76,6 @@ public class OrderInputManager {
     }
 
     private static Menu parseMenu(String menuName) {
-        menuName = menuName.trim();
-
         Menu menu = Menu.getMenu(menuName);
         if (menu == null) {
             throw new IllegalArgumentException(ErrorMessage.INVALiD_MENU.getMessage());
@@ -87,8 +85,6 @@ public class OrderInputManager {
     }
 
     private static int parseMenuCount(String count) {
-        count = count.trim();
-
         if (count.matches(NUMERIC_REGEX) == false) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_MENU_COUNT.getMessage());
         }
