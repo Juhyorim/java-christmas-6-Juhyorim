@@ -111,9 +111,8 @@ public class ConsoleOutput {
         String formatter = MessageFormat.BENEFIT.getFormat();
 
         for (String benefitName : benefits.keySet()) {
-            benefitContents.append(
-                    formatter.formatted(benefitName, MessageFormatter.getFormattedPrice(benefits.get(benefitName)))
-            );
+            String formattedPrice = MessageFormatter.getFormattedPrice(benefits.get(benefitName));
+            benefitContents.append(formatter.formatted(benefitName, formattedPrice));
         }
 
         return benefitContents.toString().trim();

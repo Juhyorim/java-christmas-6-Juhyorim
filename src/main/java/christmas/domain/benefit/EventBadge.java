@@ -1,27 +1,29 @@
 package christmas.domain.benefit;
 
 public enum EventBadge {
-    STAR("별"),
-    TREE("트리"),
-    SANTA("산타"),
-    NONE("없음");
+    STAR("별", 5_000),
+    TREE("트리", 10_000),
+    SANTA("산타", 20_000),
+    NONE("없음",0);
 
     String name;
+    Integer minimumPrice;
 
-    EventBadge(String name) {
+    EventBadge(String name, int minimumPrice) {
         this.name = name;
+        this.minimumPrice = minimumPrice;
     }
 
     public static EventBadge getBadge(int totalDiscountPrice) {
-        if (totalDiscountPrice < 5_000) {
+        if (totalDiscountPrice < STAR.minimumPrice) {
             return NONE;
         }
 
-        if (totalDiscountPrice < 10_000) {
+        if (totalDiscountPrice < TREE.minimumPrice) {
             return STAR;
         }
 
-        if (totalDiscountPrice < 20_000) {
+        if (totalDiscountPrice < SANTA.minimumPrice) {
             return TREE;
         }
 

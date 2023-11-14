@@ -140,19 +140,14 @@ public enum DiscountType {
         return false;
     }
 
-    public static List<DiscountType> getPossibleDiscount(DiscountCheck benefitCheckDto) {
+    public static List<DiscountType> getPossibleDiscount(DiscountCheck benefitCheck) {
+        if (isUnderMinimumAmount(benefitCheck.getTotalPrice()) || isNot2023December(benefitCheck.getDate())) {
+            return new ArrayList<>();
+        }
+
         List<DiscountType> benefits = new ArrayList<>();
-
-        if (isUnderMinimumAmount(benefitCheckDto.getTotalPrice())) {
-            return benefits;
-        }
-
-        if (is2023December(benefitCheckDto.getDate()) == false) {
-            return benefits;
-        }
-
         for (DiscountType benefitType : values()) {
-            if (benefitType.canApply(benefitCheckDto)) {
+            if (benefitType.canApply(benefitCheck)) {
                 benefits.add(benefitType);
             }
         }
@@ -160,7 +155,7 @@ public enum DiscountType {
         return benefits;
     }
 
-    private static boolean is2023December(LocalDate date) {
+    private static boolean isNot2023December(LocalDate date) {
         if (date.getYear() == 2023 && date.getMonth() == Month.DECEMBER) {
             return true;
         }

@@ -56,19 +56,27 @@ public class TotalBenefits {
     }
 
     public Map<String, Integer> getBenefits() {
+        Map<DiscountType, Integer> benefitByDiscountType = totalDiscount.getDiscountPriceByDiscountType();
         Map<String, Integer> benefits = new HashMap<>();
 
-        Map<DiscountType, Integer> benefitByDiscountType = totalDiscount.getgetDiscountPriceByDiscountType();
-        for (DiscountType discountType : benefitByDiscountType.keySet()) {
-            benefits.put(discountType.getName(), benefitByDiscountType.get(discountType));
-        }
+        putDiscounts(benefits, benefitByDiscountType);
+        putGifts(benefits);
 
+        return benefits;
+    }
+
+    private void putGifts(Map<String, Integer> benefits) {
         for (GiftProduct giftProduct : gifts.getGiftProductsTypes()) {
             benefits.put(
                     GIFT_EVENT_NAME,
-                    benefits.getOrDefault(giftProduct, 0) + (giftProduct.getPrice() * gifts.getCount(giftProduct)));
+                    benefits.getOrDefault(giftProduct, 0) + (giftProduct.getPrice() * gifts.getCount(giftProduct))
+            );
         }
+    }
 
-        return benefits;
+    private static void putDiscounts(Map<String, Integer> benefits, Map<DiscountType, Integer> benefitByDiscountType) {
+        for (DiscountType discountType : benefitByDiscountType.keySet()) {
+            benefits.put(discountType.getName(), benefitByDiscountType.get(discountType));
+        }
     }
 }

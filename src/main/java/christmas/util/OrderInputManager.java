@@ -49,21 +49,24 @@ public class OrderInputManager {
 
     private static int addMenuAndCount(Map<Menu, Integer> menuAndCount, String menuCountBundle) {
         List<String> splitedMenuCount = SplitManager.split(menuCountBundle, MENU_AND_COUNT_DELIMITER);
-
-        if (splitedMenuCount.size() != 2) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_FORM.getMessage());
-        }
+        validateMenuAndCount(splitedMenuCount);
 
         String menu = splitedMenuCount.get(0);
         String count = splitedMenuCount.get(1);
 
         Menu validMenu = parseMenu(menu);
         int validCount = parseMenuCount(count);
-
         validateDuplicatedMenu(menuAndCount, validMenu);
+
         menuAndCount.put(validMenu, validCount);
 
         return validCount;
+    }
+
+    private static void validateMenuAndCount(List<String> splitedMenuCount) {
+        if (splitedMenuCount.size() != 2) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_FORM.getMessage());
+        }
     }
 
     private static void validateDuplicatedMenu(Map<Menu, Integer> menuAndCount, Menu validMenu) {

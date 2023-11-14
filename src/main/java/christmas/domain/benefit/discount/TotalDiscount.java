@@ -11,7 +11,7 @@ public class TotalDiscount {
         this.discountedMenus = discountedMenus;
     }
 
-    public Map<DiscountType, Integer> getgetDiscountPriceByDiscountType() {
+    public Map<DiscountType, Integer> getDiscountPriceByDiscountType() {
         return discountPriceByDiscountType;
     }
 
