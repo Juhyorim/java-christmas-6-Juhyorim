@@ -13,6 +13,8 @@ public enum GiftProduct {
             (giftcheck) -> calculateChampagneCount(giftcheck)
     );
 
+    public static final int MINIMUM_ORDER_PRICE_TO_GET_CHAMPAGNE = 120_000;
+
     private String name;
     private BenefitVerification verify;
     private int price;
@@ -27,7 +29,7 @@ public enum GiftProduct {
 
     private static boolean canGetChampagne(BenefitCheck benefitCheck) {
         GiftCheck giftCheck = (GiftCheck) benefitCheck;
-        if (giftCheck.getDiscountedTotalPrice() < CHAMPAGNE.getPrice()) {
+        if (giftCheck.getTotalOrderPrice() < MINIMUM_ORDER_PRICE_TO_GET_CHAMPAGNE) {
             return false;
         }
 
@@ -35,7 +37,7 @@ public enum GiftProduct {
     }
 
     private static int calculateChampagneCount(GiftCheck giftCheck) {
-        if (giftCheck.getDiscountedTotalPrice() < CHAMPAGNE.getPrice()) {
+        if (giftCheck.getTotalOrderPrice() < CHAMPAGNE.getPrice()) {
             return 0;
         }
 

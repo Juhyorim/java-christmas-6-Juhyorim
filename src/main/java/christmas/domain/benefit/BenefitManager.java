@@ -24,8 +24,8 @@ public class BenefitManager {
         return totalBenefits;
     }
 
-    private PossibleGift getGift(int getDiscountedTotalPrice) {
-        GiftCheck giftCheckDto = new GiftCheck(getDiscountedTotalPrice);
+    private PossibleGift getGift(int totalOrderPrice) {
+        GiftCheck giftCheckDto = new GiftCheck(totalOrderPrice);
         return GiftProduct.getPossibleGift(giftCheckDto);
     }
 
