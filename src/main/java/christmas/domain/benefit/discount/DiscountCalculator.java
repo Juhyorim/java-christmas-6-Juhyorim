@@ -14,9 +14,11 @@ public class DiscountCalculator {
         Map<DiscountType, Integer> discountPriceByBenefit = new HashMap<>();
 
         for (DiscountType discountType : discounts) {
-            DiscountedMenus apply = DiscountType.apply(discountType, order);
-            discountedMenu.add(apply);
-            discountPriceByBenefit.put(discountType, apply.getDiscountedTotalPrice());
+            DiscountedMenus discountByDiscountType = DiscountType.apply(discountType, order);
+            discountedMenu.add(discountByDiscountType);
+            if (discountByDiscountType.getDiscountedTotalPrice() != 0) {
+                discountPriceByBenefit.put(discountType, discountByDiscountType.getDiscountedTotalPrice());
+            }
         }
 
         return new TotalDiscount(discountPriceByBenefit, discountedMenu);
