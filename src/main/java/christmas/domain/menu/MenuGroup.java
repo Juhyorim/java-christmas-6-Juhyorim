@@ -8,6 +8,7 @@ public enum MenuGroup {
     DESSERT(List.of(Menu.CHOCOLATE_CAKE, Menu.ICE_CREAM)),
     DRINK(List.of(Menu.ZERO_COLA, Menu.RED_WINE, Menu.CHAMPAGNE));
 
+    public static final String MENU_NOT_IN_MENU_GROUP = "메뉴에 해당하는 그룹이 없습니다";
     private List<Menu> menus;
 
     private MenuGroup(List<Menu> menus) {
@@ -21,7 +22,7 @@ public enum MenuGroup {
             }
         }
 
-        throw new IllegalArgumentException("[ERROR] 메뉴에 해당하는 그룹이 없습니다");
+        throw new IllegalArgumentException(MENU_NOT_IN_MENU_GROUP);
     }
 
     public static boolean isInGroup(Menu menu, MenuGroup menuGroup) {
