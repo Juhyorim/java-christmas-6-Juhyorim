@@ -27,7 +27,7 @@ public enum GiftProduct {
 
     private static boolean canGetChampagne(BenefitCheck benefitCheck) {
         GiftCheck giftCheck = (GiftCheck) benefitCheck;
-        if (giftCheck.getDiscountedTotalPrice() < 120_000) {
+        if (giftCheck.getDiscountedTotalPrice() < CHAMPAGNE.getPrice()) {
             return false;
         }
 
@@ -35,7 +35,7 @@ public enum GiftProduct {
     }
 
     private static int calculateChampagneCount(GiftCheck giftCheck) {
-        if (giftCheck.getDiscountedTotalPrice() < 120_000) {
+        if (giftCheck.getDiscountedTotalPrice() < CHAMPAGNE.getPrice()) {
             return 0;
         }
 
