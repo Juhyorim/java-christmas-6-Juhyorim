@@ -1,10 +1,7 @@
 package christmas.view;
 
-import christmas.domain.benefit.gift.PossibleGift;
-import christmas.domain.menu.Menu;
-import christmas.domain.Order;
-import christmas.domain.OrderedMenu;
-import christmas.domain.benefit.gift.GiftProduct;
+import christmas.dto.GiftDto;
+import christmas.dto.OrderMenuDto;
 import christmas.util.MessageFormatter;
 import christmas.view.message.ErrorMessage;
 import christmas.view.message.MessageFormat;
@@ -57,14 +54,13 @@ public class ConsoleOutput {
         simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + LINE_SEPARATOR);
     }
 
-    public void printOrderMenu(Order order) {
+    public void printOrderMenu(OrderMenuDto orderMenuDto) {
         String title = TitleMessage.ORDER_MENU.getMessage();
         StringBuilder orderMenuContents = new StringBuilder();
 
-        OrderedMenu orderedMenu = order.getMenus();
-        for (Menu menu : orderedMenu.getKindOfMenu()) {
+        for (String menuName : orderMenuDto.getKindOfMenu()) {
             String formatter = MessageFormat.MENU.getFormat();
-            orderMenuContents.append(formatter.formatted(menu.getName(), orderedMenu.getCount(menu)));
+            orderMenuContents.append(formatter.formatted(menuName, orderMenuDto.getCount(menuName)));
         }
 
         printWithTitle(title, orderMenuContents.toString().trim());
@@ -77,23 +73,23 @@ public class ConsoleOutput {
         printWithTitle(title, content.trim());
     }
 
-    public void printGift(PossibleGift giftProducts) {
+    public void printGift(GiftDto giftDto) {
         String title = TitleMessage.GIFT.getMessage();
-        String contents = giftProductsContents(giftProducts);
+        String contents = giftProductsContents(giftDto);
 
         printWithTitle(title, contents.trim());
     }
 
-    private String giftProductsContents(PossibleGift giftProducts) {
-        if (giftProducts.getGiftCount() == 0) {
+    private String giftProductsContents(GiftDto giftDto) {
+        if (giftDto.getGiftCount() == 0) {
             return (NONE + LINE_SEPARATOR);
         }
 
         StringBuilder giftProductsContents = new StringBuilder();
         String formatter = MessageFormat.GIFT.getFormat();
-        for (GiftProduct giftProduct : giftProducts.getGiftProductsTypes()) {
+        for (String giftProductName : giftDto.getGiftProductsTypes()) {
             giftProductsContents.append(
-                    formatter.formatted(giftProduct.getName(), giftProducts.getCount(giftProduct))
+                    formatter.formatted(giftProductName, giftDto.getCount(giftProductName))
             );
         }
 

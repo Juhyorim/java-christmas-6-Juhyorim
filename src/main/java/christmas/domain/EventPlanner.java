@@ -1,5 +1,8 @@
 package christmas.domain;
 
+import christmas.domain.benefit.gift.PossibleGift;
+import christmas.dto.GiftDto;
+import christmas.dto.OrderMenuDto;
 import christmas.util.EventDayValidator;
 import christmas.domain.benefit.BenefitManager;
 import christmas.domain.menu.Menu;
@@ -36,7 +39,8 @@ public class EventPlanner {
     }
 
     private void printOrderMenu(Order order) {
-        consoleOutput.printOrderMenu(order);
+        OrderMenuDto orderMenuDto = OrderMenuDto.convert(order.getMenus());
+        consoleOutput.printOrderMenu(orderMenuDto);
     }
 
     private void printTotalPriceBeforeDiscount(Order order) {
@@ -48,7 +52,10 @@ public class EventPlanner {
     }
 
     private void printGift(TotalBenefits benefits) {
-        consoleOutput.printGift(benefits.getGifts());
+        PossibleGift gifts = benefits.getGifts();
+        GiftDto giftDto = GiftDto.convert(gifts);
+
+        consoleOutput.printGift(giftDto);
     }
 
     private void printBenefits(TotalBenefits benefits) {
