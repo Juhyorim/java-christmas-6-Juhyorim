@@ -29,7 +29,7 @@ public class EventPlanner {
     }
 
     private void printResult(Order order, TotalBenefits benefits) {
-        consoleOutput.printResultStart();
+        consoleOutput.printResultStart(order.getOrderDayOfMonth());
         printOrderMenu(order);
         printTotalPriceBeforeDiscount(order);
         printGift(benefits);
