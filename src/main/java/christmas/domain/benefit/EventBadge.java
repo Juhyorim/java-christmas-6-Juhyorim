@@ -14,7 +14,7 @@ public enum EventBadge {
         this.minimumPrice = minimumPrice;
     }
 
-    public static EventBadge getBadge(int totalDiscountPrice) {
+    public static EventBadge createBadge(int totalDiscountPrice) {
         if (totalDiscountPrice < STAR.minimumPrice) {
             return NONE;
         }

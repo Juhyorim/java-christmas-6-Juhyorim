@@ -45,4 +45,8 @@ public class Order {
             totalPrice += menu.getPrice() * orders.get(menu);
         }
     }
+
+    public int getOrderDayOfMonth() {
+        return orderDate.getDayOfMonth();
+    }
 }

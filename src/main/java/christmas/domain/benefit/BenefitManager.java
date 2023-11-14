@@ -18,7 +18,7 @@ public class BenefitManager {
 
         TotalBenefits totalBenefits = new TotalBenefits(totalDiscount, possibleGift);
 
-        EventBadge eventBadge = EventBadge.getBadge(totalBenefits.getTotalBenefitPrice());
+        EventBadge eventBadge = EventBadge.createBadge(totalBenefits.getTotalBenefitPrice());
         totalBenefits.addEventBadge(eventBadge);
 
         return totalBenefits;

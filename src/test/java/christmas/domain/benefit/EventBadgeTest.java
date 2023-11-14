@@ -17,6 +17,6 @@ class EventBadgeTest {
     )
     @DisplayName("헤택 가격에 맞는 배지 반환 테스트")
     void getBadge(int benefitPrice, EventBadge eventBadge) {
-        assertThat(EventBadge.getBadge(benefitPrice)).isEqualTo(eventBadge);
+        assertThat(EventBadge.createBadge(benefitPrice)).isEqualTo(eventBadge);
     }
 }

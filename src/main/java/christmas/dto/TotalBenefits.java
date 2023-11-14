@@ -79,4 +79,8 @@ public class TotalBenefits {
             benefits.put(discountType.getName(), benefitByDiscountType.get(discountType));
         }
     }
+
+    public String getEventBadgeName() {
+        return eventBadge.getName();
+    }
 }

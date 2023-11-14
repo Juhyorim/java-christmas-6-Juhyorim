@@ -1,5 +1,6 @@
 package christmas.domain;
 
+import christmas.domain.benefit.EventBadge;
 import christmas.domain.benefit.gift.PossibleGift;
 import christmas.dto.GiftDto;
 import christmas.dto.OrderMenuDto;
@@ -69,7 +70,7 @@ public class EventPlanner {
     }
 
     private void printEventBadge(TotalBenefits benefits) {
-        String eventBadgeName = benefits.getEventBadge().getName();
+        String eventBadgeName = benefits.getEventBadgeName();
         consoleOutput.printEventBadge(eventBadgeName);
     }
 

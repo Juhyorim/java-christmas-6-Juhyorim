@@ -55,7 +55,7 @@ public enum DiscountType {
 
     private static DiscountedMenus applyChristmasDDayDiscount(Order order) {
         DiscountedMenus discountedMenu = new DiscountedMenus();
-        int discountTotalPrice = 1000 + (order.getOrderDate().getDayOfMonth() - 1) * 100;
+        int discountTotalPrice = 1000 + (order.getOrderDayOfMonth() - 1) * 100;
         discountedMenu.discountTotalPrice(discountTotalPrice);
 
         return discountedMenu;
