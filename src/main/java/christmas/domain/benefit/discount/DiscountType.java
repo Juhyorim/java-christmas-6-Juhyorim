@@ -157,10 +157,10 @@ public enum DiscountType {
 
     private static boolean isNot2023December(LocalDate date) {
         if (date.getYear() == 2023 && date.getMonth() == Month.DECEMBER) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private static boolean isUnderMinimumAmount(int totalPrice) {
