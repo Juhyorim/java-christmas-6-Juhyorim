@@ -31,7 +31,7 @@ public class ConsoleOutput {
     }
 
     public void printInvalidOrderError(String errorMessage) {
-        if (errorMessage.equals(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED)) {
+        if (errorMessage.equals(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED.getMessage())) {
             simplePrintMessage(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED.getMessage());
             return;
         }
@@ -50,8 +50,8 @@ public class ConsoleOutput {
         printMessage(messageBuffer);
     }
 
-    public void printResultStart() {
-        simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage() + LINE_SEPARATOR);
+    public void printResultStart(int dayOfMonth) {
+        simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage().formatted(dayOfMonth) + LINE_SEPARATOR);
     }
 
     public void printOrderMenu(OrderMenuDto orderMenuDto) {
