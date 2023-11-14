@@ -17,7 +17,7 @@ public enum Menu {
     private String name;
     private int price;
 
-    Menu(String name, int price) {
+    private Menu(String name, int price) {
         this.price = price;
         this.name = name;
     }

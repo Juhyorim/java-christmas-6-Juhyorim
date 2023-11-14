@@ -47,7 +47,7 @@ public enum DiscountType {
     private BenefitVerification verify;
     private BenefitApplier benefitApplier;
 
-    DiscountType(String name, BenefitVerification verify, BenefitApplier benefitApplier) {
+    private DiscountType(String name, BenefitVerification verify, BenefitApplier benefitApplier) {
         this.name = name;
         this.verify = verify;
         this.benefitApplier = benefitApplier;

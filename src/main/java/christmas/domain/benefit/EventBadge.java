@@ -6,10 +6,10 @@ public enum EventBadge {
     SANTA("산타", 20_000),
     NONE("없음",0);
 
-    String name;
-    Integer minimumPrice;
+    private String name;
+    private Integer minimumPrice;
 
-    EventBadge(String name, int minimumPrice) {
+    private EventBadge(String name, int minimumPrice) {
         this.name = name;
         this.minimumPrice = minimumPrice;
     }

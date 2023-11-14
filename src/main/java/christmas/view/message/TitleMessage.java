@@ -8,9 +8,10 @@ public enum TitleMessage {
     TOTAL_BENEFIT_PRICE("<총혜택 금액>"),
     ACTUAL_PAYMENT_AMOUNT("<할인 후 예상 결제 금액>"),
     EVENT_BADGE("<12월 이벤트 배지>");
-    String message;
 
-    TitleMessage(String message) {
+    private String message;
+
+    private TitleMessage(String message) {
         this.message = message;
     }
 

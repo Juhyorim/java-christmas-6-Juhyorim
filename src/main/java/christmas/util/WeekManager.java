@@ -8,7 +8,7 @@ public enum WeekManager {
 
     private List<DayOfWeek> includedDayOfWeeks;
 
-    WeekManager(List<DayOfWeek> dayOfWeeks) {
+    private WeekManager(List<DayOfWeek> dayOfWeeks) {
         this.includedDayOfWeeks = dayOfWeeks;
     }
 

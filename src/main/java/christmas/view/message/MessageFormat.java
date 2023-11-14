@@ -11,7 +11,7 @@ public enum MessageFormat {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private String format;
 
-    MessageFormat(String format) {
+    private  MessageFormat(String format) {
         this.format = format;
     }
 

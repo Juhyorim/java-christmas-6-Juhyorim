@@ -6,16 +6,19 @@ import christmas.dto.BenefitCheck;
 import christmas.dto.GiftCheck;
 
 public enum GiftProduct {
-    CHAMPAGNE(Menu.CHAMPAGNE.getName(), (benefitCheck) -> canGetChampagne(benefitCheck), Menu.CHAMPAGNE.getPrice(),
-            (giftcheck) -> calculateChampagneCount(giftcheck));
+    CHAMPAGNE(
+            Menu.CHAMPAGNE.getName(),
+            (benefitCheck) -> canGetChampagne(benefitCheck),
+            Menu.CHAMPAGNE.getPrice(),
+            (giftcheck) -> calculateChampagneCount(giftcheck)
+    );
 
-    String name;
+    private String name;
+    private BenefitVerification verify;
+    private int price;
+    private GiftCount giftCount;
 
-    BenefitVerification verify;
-    int price;
-    GiftCount giftCount;
-
-    GiftProduct(String name, BenefitVerification verify, int price, GiftCount giftCount) {
+    private GiftProduct(String name, BenefitVerification verify, int price, GiftCount giftCount) {
         this.name = name;
         this.verify = verify;
         this.price = price;

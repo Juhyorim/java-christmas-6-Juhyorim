@@ -10,7 +10,7 @@ public enum MenuGroup {
 
     private List<Menu> menus;
 
-    MenuGroup(List<Menu> menus) {
+    private MenuGroup(List<Menu> menus) {
         this.menus = menus;
     }
 
