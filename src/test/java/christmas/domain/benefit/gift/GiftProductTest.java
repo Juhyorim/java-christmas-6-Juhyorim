@@ -17,10 +17,10 @@ class GiftProductTest {
             delimiter = ':'
     )
     @DisplayName("주문 금액에 따라 증정상품 지급 확인")
-    void findPossibleGift(int totalPrice, boolean canGetGift) {
+    void findPossibleGift(int totalPrice, boolean isEmptyGift) {
         GiftCheck giftCheck = new GiftCheck(totalPrice);
         PossibleGift possibleGift = GiftProduct.getPossibleGift(giftCheck);
 
-        assertThat(possibleGift.giftProductCount.isEmpty()).isEqualTo(canGetGift);
+        assertThat(possibleGift.giftProductCount.isEmpty()).isEqualTo(isEmptyGift);
     }
 }
