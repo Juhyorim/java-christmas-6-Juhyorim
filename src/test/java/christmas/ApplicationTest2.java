@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class ApplicationTest2 extends NsTest {
     public static final String SIMPLE_ORDER_INPUT = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
+    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     @Test
     @DisplayName("모든 문구 출력 테스트")
@@ -206,6 +207,44 @@ class ApplicationTest2 extends NsTest {
             assertSimpleTest(() -> {
                 runException("25", orderInput);
                 assertThat(output()).contains(ONLY_DRINK_ORDER_NOT_ALLOWED);
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("증정메뉴 관련")
+    class GiftTest {
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "타파스-1,제로콜라-1",
+                        "바비큐립-2",
+                        "크리스마스파스타-4"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("증정 메뉴 없음 출력")
+        void noGift(String orderInput) {
+            assertSimpleTest(() -> {
+                run("25", orderInput);
+                assertThat(output()).contains("<증정 메뉴>" + LINE_SEPARATOR + "없음");
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "크리스마스파스타-4,초코케이크-1,아이스크림-1", //12만원
+                        "양송이수프-1,바비큐립-1,레드와인-1", //12만원
+                        "바비큐립-3" //12만원 이상
+                },
+                delimiter = ':'
+        )
+        @DisplayName("12만원이상 주문시 샴페인 증정")
+        void getChampagne(String orderInput) {
+            assertSimpleTest(() -> {
+                run("25", orderInput);
+                assertThat(output()).contains("<증정 메뉴>" + LINE_SEPARATOR + "샴페인 1개");
             });
         }
     }
