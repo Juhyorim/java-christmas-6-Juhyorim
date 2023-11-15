@@ -358,6 +358,49 @@ class ApplicationTest2 extends NsTest {
         });
     }
 
+    @Nested
+    @DisplayName("크리스마스 디데이 할인 관련")
+    class ChristmasDDayDiscountTest {
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "1:1,000",
+                        "2:1,100",
+                        "3:1,200",
+                        "5:1,400",
+                        "9:1,800",
+                        "10:1,900",
+                        "17:2,600",
+                        "20:2,900",
+                        "21:3,000",
+                        "23:3,200",
+                        "24:3,300",
+                        "25:3,400"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("할인금액 테스트")
+        void christmasDiscountAmount(String dayOfMonth, String discountAmount) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, SIMPLE_ORDER_INPUT);
+                assertThat(output()).contains("크리스마스 디데이 할인: -" + discountAmount + "원");
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {"26", "27", "28", "29", "30", "31"},
+                delimiter = ':'
+        )
+        @DisplayName("할인 적용안되는 경우 테스트")
+        void noChristmasDiscount(String dayOfMonth) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, SIMPLE_ORDER_INPUT);
+                assertThat(output()).doesNotContain("크리스마스 디데이 할인");
+            });
+        }
+    }
+
     @Override
     protected void runMain() {
         Application.main(new String[]{});
