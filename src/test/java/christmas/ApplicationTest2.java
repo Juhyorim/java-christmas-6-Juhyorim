@@ -401,6 +401,24 @@ class ApplicationTest2 extends NsTest {
         }
     }
 
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                    "3:true", "10:true", "17:true", "24:true", "25:true", "31:true",
+                    "1:false", "2:false", "4:false", "11:false", "23:false", "30:false"
+            },
+            delimiter = ':'
+    )
+    @DisplayName("특별할인 적용 테스트")
+    void specialDayDiscountTest(String dayOfMonth, boolean isSpecialDay) {
+        assertSimpleTest(() -> {
+            run(dayOfMonth, SIMPLE_ORDER_INPUT);
+            String output = output();
+            assertThat(output.contains("특별 할인: -1,000원")).isEqualTo(isSpecialDay);
+            assertThat(output.contains("특별 할인")).isEqualTo(isSpecialDay);
+        });
+    }
+
     @Override
     protected void runMain() {
         Application.main(new String[]{});
