@@ -15,6 +15,8 @@ class ApplicationTest2 extends NsTest {
     public static final String SIMPLE_ORDER_INPUT = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
     public static final String UNDER_10000_ORDER_INPUT = "타파스-1,제로콜라-1";
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    public static final String ONLY_MAIN_ORDER_INPUT = "바비큐립-3";
+    public static final String ONLY_DESSERT_ORDER_INPUT = "초코케이크-3";
 
     @Test
     @DisplayName("모든 문구 출력 테스트")
@@ -419,6 +421,95 @@ class ApplicationTest2 extends NsTest {
             assertThat(output.contains("특별 할인: -1,000원")).isEqualTo(isSpecialDay);
             assertThat(output.contains("특별 할인")).isEqualTo(isSpecialDay);
         });
+    }
+
+    @Nested
+    @DisplayName("평일/주말 할인 관련")
+    class WeekDiscountTeest {
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "3:true", "4:true", "7:true", "10:true", "11:true", "14:true",
+                        "17:true", "18:true", "21:true", "24:true", "28:true", "31:true",
+                        "1:false", "2:false", "8:false", "9:false", "15:false", "16:false",
+                        "22:false", "23:false", "29:false", "30:false"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("평일/주말 할인 적용 테스트")
+        void weekDayDiscountTest(String dayOfMonth, boolean weekDayDiscountInclude) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, SIMPLE_ORDER_INPUT);
+                String output = output();
+                assertThat(output.contains("평일 할인")).isEqualTo(weekDayDiscountInclude);
+                assertThat(output.contains("주말 할인")).isEqualTo(!weekDayDiscountInclude);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "3", "4", "7", "10", "11", "14",
+                        "17", "18", "21", "24", "28", "31"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("디저트 없는 평일할인 테스트")
+        void noDessertOrderWeekday(String dayOfMonth) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, ONLY_MAIN_ORDER_INPUT);
+                assertThat(output()).doesNotContain("평일 할인");
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "3", "4", "7", "10", "11", "14",
+                        "17", "18", "21", "24", "28", "31"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("디저트만 있는 주문 평일할인 테스트")
+        void onlyDessertOrderWeekday(String dayOfMonth) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, ONLY_DESSERT_ORDER_INPUT);
+                assertThat(output()).contains("평일 할인");
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "1", "2", "8", "9", "15", "16",
+                        "22", "23", "29", "30"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("메인메뉴만 있는 주문 주말 할인 테스트")
+        void noDessertOrderWeekend(String dayOfMonth) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, ONLY_MAIN_ORDER_INPUT);
+                assertThat(output()).contains("주말 할인");
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "1", "2", "8", "9", "15", "16",
+                        "22", "23", "29", "30"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("메인메뉴 없는 주말 할인 테스트")
+        void noMainOrderWeekend(String dayOfMonth) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, ONLY_DESSERT_ORDER_INPUT);
+                String output = output();
+                assertThat(output).doesNotContain("주말 할인");
+            });
+        }
     }
 
     @Nested
