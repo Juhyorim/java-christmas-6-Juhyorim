@@ -338,6 +338,26 @@ class ApplicationTest2 extends NsTest {
         }
     }
 
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                    "아이스크림-1:5,000",
+                    "타파스-1,제로콜라-1:8,500",
+                    "해산물파스타-1,샴페인-1:60,000",
+                    "양송이수프-1,바비큐립-2:114,000",
+                    "초코케이크-1,아이스크림-1:20,000",
+                    "티본스테이크-1,레드와인-19:1,195,000원"
+            },
+            delimiter = ':'
+    )
+    @DisplayName("총주문 금액 콤마표시 확인 테스트")
+    void 총주문_금액_콤마표시_테스트(String orderInput, String priceWithComma) {
+        assertSimpleTest(() -> {
+            run("26", orderInput);
+            assertThat(output()).contains(priceWithComma);
+        });
+    }
+
     @Override
     protected void runMain() {
         Application.main(new String[]{});
