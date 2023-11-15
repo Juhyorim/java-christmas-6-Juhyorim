@@ -26,7 +26,7 @@ public enum DiscountType {
             (order) -> applyWeekdayDiscount(order)
     ),
     WEEKEND(
-            "특별 할인",
+            "주말 할인",
             (benefitCheck) -> isWeekend(benefitCheck),
             (order) -> applyWeekendDiscount(order)
     ),
