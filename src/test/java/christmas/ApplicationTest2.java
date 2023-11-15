@@ -290,6 +290,54 @@ class ApplicationTest2 extends NsTest {
         }
     }
 
+    @Nested
+    @DisplayName("혜택 내역 관련")
+    class BenefitsTest {
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "양송이수프-1,제로콜라-1",
+                        "타파스-1,제로콜라-1",
+                        "시저샐러드-1",
+                        "아이스크림-1,제로콜라-1"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("주문 금액이 10000원 미만일 때 아무것도 적용되지 않는 것 확인")
+        void totalOrderPriceIsUnder10000(String orderInput) {
+            assertSimpleTest(() -> {
+                run("25", orderInput);
+                assertThat(output()).contains(
+                        "<증정 메뉴>" + LINE_SEPARATOR + "없음",
+                        "<혜택 내역>" + LINE_SEPARATOR + "없음",
+                        "<총혜택 금액>" + LINE_SEPARATOR + "0원",
+                        "<12월 이벤트 배지>" + LINE_SEPARATOR + "없음"
+                );
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "30:해산물파스타-5,아이스크림-3:크리스마스 디데이 할인", // 크리스마스 디데이 할인 0원
+                        "2:초코케이크-5,아이스크림-3:주말 할인", //주말할인 0원
+                        "4:해산물파스타-1,티본스테이크-1:평일 할인", //평일할인 0원
+                        "18:크리스마스파스타-3,아이스크림-3:특별 할인", //특별 할인 0원
+                        "3:초코케이크-5:증정 이벤트" //증정 이벤트 0원
+                },
+                delimiter = ':'
+        )
+        @DisplayName("혜택이 0원일 때 포함되지 않는지 확인")
+        void dontPrint0WonBenefit(String dayOfMonth, String orderInput, String notContainMessage) {
+            assertSimpleTest(() -> {
+                run(dayOfMonth, orderInput);
+                assertThat(output()).doesNotContain(
+                        notContainMessage
+                );
+            });
+        }
+    }
+
     @Override
     protected void runMain() {
         Application.main(new String[]{});
