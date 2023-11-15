@@ -249,6 +249,47 @@ class ApplicationTest2 extends NsTest {
         }
     }
 
+    @Nested
+    @DisplayName("총 혜택금액 관련")
+    class totalBenefitAmountTest {
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "해산물파스타-1,샴페인-1:-4,400",
+                        "양송이수프-1,바비큐립-2,해산물파스타-1:-29,400",
+                        "바비큐립-1,티본스테이크-1,아이스크림-1:-6,423"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("총혜택 금액 마이너스 출력")
+        void totalBenefitAmountMinusInclude(String orderInput, String benefitPriceWithMinus) {
+            assertSimpleTest(() -> {
+                run("25", orderInput);
+                assertThat(output()).contains(benefitPriceWithMinus);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "타파스-1,제로콜라-1",
+                        "양송이수프-1,제로콜라-1",
+                        "초코케이크-3"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("총혜택 금액 0원 출력")
+        void totalBenefitAmountZero(String orderInput) {
+            assertSimpleTest(() -> {
+                run("29", orderInput);
+
+                String output = output();
+                assertThat(output).contains("0원");
+                assertThat(output).doesNotContain("-0원");
+            });
+        }
+    }
+
     @Override
     protected void runMain() {
         Application.main(new String[]{});
