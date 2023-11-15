@@ -420,7 +420,7 @@ class ApplicationTest2 extends NsTest {
             assertThat(output.contains("특별 할인")).isEqualTo(isSpecialDay);
         });
     }
-    
+
     @Nested
     @DisplayName("12월 이벤트 배지 관련")
     class EventBadgeTest {
@@ -461,6 +461,25 @@ class ApplicationTest2 extends NsTest {
                 assertThat(output()).contains(DECEMBER_EVENT_BADGE_TITLE + LINE_SEPARATOR + "없음");
             });
         }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                    "1:초코케이크-2:29,000", //30000 - 1000(크리스마스)
+                    "31:바비큐립-1:53,000", //54000 - 1000(특별)
+                    "3:바비큐립-1:51,800" //54000 - 1200(크리스마스) - 1000(특별) = 51800
+            },
+            delimiter = ':'
+    )
+    @DisplayName("총주문 금액 할인 테스트")
+    void dontPrint0WonBenefit(String dayOfMonth, String orderInput, String expectedPrice) {
+        assertSimpleTest(() -> {
+            run(dayOfMonth, orderInput);
+            assertThat(output()).contains(
+                    "<할인 후 예상 결제 금액>" + LINE_SEPARATOR + expectedPrice
+            );
+        });
     }
 
     @Override
