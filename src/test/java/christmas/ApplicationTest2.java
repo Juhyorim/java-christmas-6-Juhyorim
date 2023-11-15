@@ -4,6 +4,7 @@ import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import christmas.domain.benefit.EventBadge;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class ApplicationTest2 extends NsTest {
     public static final String SIMPLE_ORDER_INPUT = "티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1";
+    public static final String UNDER_10000_ORDER_INPUT = "타파스-1,제로콜라-1";
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     @Test
@@ -217,7 +219,7 @@ class ApplicationTest2 extends NsTest {
         @ParameterizedTest
         @CsvSource(
                 value = {
-                        "타파스-1,제로콜라-1",
+                        UNDER_10000_ORDER_INPUT,
                         "바비큐립-2",
                         "크리스마스파스타-4"
                 },
@@ -272,7 +274,7 @@ class ApplicationTest2 extends NsTest {
         @ParameterizedTest
         @CsvSource(
                 value = {
-                        "타파스-1,제로콜라-1",
+                        UNDER_10000_ORDER_INPUT,
                         "양송이수프-1,제로콜라-1",
                         "초코케이크-3"
                 },
@@ -296,8 +298,8 @@ class ApplicationTest2 extends NsTest {
         @ParameterizedTest
         @CsvSource(
                 value = {
+                        UNDER_10000_ORDER_INPUT,
                         "양송이수프-1,제로콜라-1",
-                        "타파스-1,제로콜라-1",
                         "시저샐러드-1",
                         "아이스크림-1,제로콜라-1"
                 },
@@ -417,6 +419,48 @@ class ApplicationTest2 extends NsTest {
             assertThat(output.contains("특별 할인: -1,000원")).isEqualTo(isSpecialDay);
             assertThat(output.contains("특별 할인")).isEqualTo(isSpecialDay);
         });
+    }
+    
+    @Nested
+    @DisplayName("12월 이벤트 배지 관련")
+    class EventBadgeTest {
+        private static final String DECEMBER_EVENT_BADGE_TITLE = "<12월 이벤트 배지>";
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "타파스-1,초코케이크-2:STAR", //1300 + 2023*2
+                        "타파스-1,초코케이크-5:TREE", //1300 + 2023*5
+                        "타파스-1,초코케이크-10:SANTA" //1300 + 2023*10
+                },
+                delimiter = ':'
+        )
+        @DisplayName("이벤트 배지 출력 테스트")
+        void eventBadgeTest(String orderInput, EventBadge eventBadge) {
+            assertSimpleTest(() -> {
+                run("4", orderInput);
+
+                assertThat(output()).contains(
+                        DECEMBER_EVENT_BADGE_TITLE + LINE_SEPARATOR + eventBadge.getName()
+                );
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "타파스-1,제로콜라-1:NONE", //0
+                        "타파스-1,바비큐립-1:NONE" //1300
+                },
+                delimiter = ':'
+        )
+        @DisplayName("이벤트 배지 없음 출력")
+        void eventBadgeNone() {
+            assertSimpleTest(() -> {
+                run("26", UNDER_10000_ORDER_INPUT);
+                assertThat(output()).contains(DECEMBER_EVENT_BADGE_TITLE + LINE_SEPARATOR + "없음");
+            });
+        }
     }
 
     @Override
