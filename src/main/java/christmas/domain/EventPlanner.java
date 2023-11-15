@@ -83,7 +83,6 @@ public class EventPlanner {
 
     private Map<Menu, Integer> getOrders() {
         return (Map<Menu, Integer>) repeatedInput(
-                () -> consoleOutput.menuAndCountRequest(),
                 () -> {
                     String input = consoleInput.getMenuAndCount();
                     return OrderInputManager.getValidOrder(input);
@@ -94,7 +93,6 @@ public class EventPlanner {
 
     private int getOrderDayOfMonth() {
         return (int) repeatedInput(
-                () -> consoleOutput.visitDayRequest(),
                 () -> {
                     String input = consoleInput.getVisitDayOfMonth();
                     return EventDayValidator.getValidDayOfMonth(input);
@@ -103,11 +101,10 @@ public class EventPlanner {
         );
     }
 
-    private Object repeatedInput(RequestPrint requestPrint, ValidInputGetter validInputGetter,
+    private Object repeatedInput(ValidInputGetter validInputGetter,
                                  ThrowInputError throwInputError) {
         while (true) {
             try {
-                requestPrint.print();
                 return validInputGetter.get();
             } catch (IllegalArgumentException e) {
                 throwInputError.throwError(e);

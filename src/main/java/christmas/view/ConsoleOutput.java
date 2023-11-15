@@ -22,13 +22,6 @@ public class ConsoleOutput {
         simplePrintMessage(OutputMessage.GREETING_MESSAGE.getMessage());
     }
 
-    public void visitDayRequest() {
-        simplePrintMessage(OutputMessage.VISIT_DAY_REQUEST.getMessage());
-    }
-
-    public void menuAndCountRequest() {
-        simplePrintMessage(OutputMessage.MENU_AND_COUNT_REQUEST.getMessage());
-    }
 
     public void printInvalidOrderError(String errorMessage) {
         if (errorMessage.equals(ErrorMessage.ONLY_DRINK_ORDER_NOT_ALLOWED.getMessage())) {
@@ -51,7 +44,8 @@ public class ConsoleOutput {
     }
 
     public void printResultStart(int dayOfMonth) {
-        simplePrintMessage(OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage().formatted(dayOfMonth) + LINE_SEPARATOR);
+        simplePrintMessage(
+                OutputMessage.PRINT_RESULT_START_MESSAGE.getMessage().formatted(dayOfMonth) + LINE_SEPARATOR);
     }
 
     public void printOrderMenu(OrderMenuDto orderMenuDto) {
