@@ -29,7 +29,7 @@ class ApplicationTest2 extends NsTest {
 
     @Nested
     @DisplayName("주문날짜 입력 관련")
-    class OrderDate {
+    class OrderDateTest {
         private static final String INVALID_ORDER_DATE = "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요.";
         private static final String DAY_FORMAT = "12월 %s일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
 
@@ -70,6 +70,142 @@ class ApplicationTest2 extends NsTest {
             assertSimpleTest(() -> {
                 runException(dayOfMonth, SIMPLE_ORDER_INPUT);
                 assertThat(output()).contains(INVALID_ORDER_DATE);
+            });
+        }
+    }
+
+    @Nested
+    @DisplayName("주문 입력 관련")
+    class OrderTest {
+        private static final String INVALID_ORDER_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
+        private static final String ONLY_DRINK_ORDER_NOT_ALLOWED = "[ERROR] 음료만 주문이 불가능합니다";
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "티본스테이크- 1,바비큐립 -1,초코케이크 - 2,제로콜라  -  3",
+                        "티본스테이크-1 , 바비큐립-1, 초코케이크-2 ,   제로콜라-3   ",
+                        " 티본스테이크 - 1 , 바비큐립 - 1 , 초코케이크  -  2  ,   제로콜라   -   3   "
+                },
+                delimiter = ':'
+        )
+        @DisplayName("공백포함 테스트")
+        void orderWithBlank(String orderInput) {
+            assertSimpleTest(() -> {
+                run("26", orderInput);
+                assertThat(output()).contains("티본스테이크 1개", "바비큐립 1개", "초코케이크 2개", "제로콜라 3개");
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "-",
+                        "레드와인-1-2",
+                        "레드와인-레드와인-2",
+                        "레드와인-레드와인-2-2",
+                        "레드와인,1,제로콜라,2",
+                        "레드와인,1-제로콜라,1-샴페인,2",
+                        "레드와인-2,제로콜라-3,샴페인"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("잘못된 형식 주문 불가능 테스트")
+        void notGoodOrderInputException(String orderInput) {
+            assertSimpleTest(() -> {
+                runException("25", orderInput);
+                assertThat(output()).contains(INVALID_ORDER_MESSAGE);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "-",
+                        "화이트와인-1",
+                        "레드와인-2, 오렌지주스-2",
+                        "핫도그-2",
+                        "초코케이크-1,티본스테이크-1,팹시콜라-1"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("메뉴판에 없는 메뉴 주문 테스트")
+        void notInMenu(String orderInput) {
+            assertSimpleTest(() -> {
+                runException("25", orderInput);
+                assertThat(output()).contains(INVALID_ORDER_MESSAGE);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "레드와인-0",
+                        "제로콜라-한개",
+                        "샴페인-one",
+                        "레드와인-1,제로콜라-0,샴페인-2"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("개수 이상한 값 테스트")
+        void numberIsInvalid(String orderInput) {
+            assertSimpleTest(() -> {
+                runException("25", orderInput);
+                assertThat(output()).contains(INVALID_ORDER_MESSAGE);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "타파스-1,타파스-1",
+                        "해산물파스타-1,샴페인-2해산물파스타-1,",
+                        "양송이수프-1,바비큐립-1,바비큐립-1"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("중복 메뉴 주문 예외발생 테스트")
+        void duplicatedMenuOrderThrowException(String orderInput) {
+            assertSimpleTest(() -> {
+                runException("3", orderInput);
+                assertThat(output()).contains(INVALID_ORDER_MESSAGE);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "타파스-21,제로콜라-1",
+                        "해산물파스타-19,샴페인-2",
+                        "양송이수프-1,바비큐립-22",
+                        "시저샐러드-6,아이스크림-15"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("주문 개수가 20개를 초과할 때 테스트")
+        void orderNumberOver20(String orderInput) {
+            assertSimpleTest(() -> {
+                runException("3", orderInput);
+                assertThat(output()).contains(INVALID_ORDER_MESSAGE);
+            });
+        }
+
+        @ParameterizedTest
+        @CsvSource(
+                value = {
+                        "레드와인-1",
+                        "제로콜라-2",
+                        "샴페인-3",
+                        "레드와인-1,제로콜라-1,샴페인-2",
+                        "레드와인-2,제로콜라-3,샴페인-1"
+                },
+                delimiter = ':'
+        )
+        @DisplayName("음료만 주문 불가능 테스트")
+        void orderOnlyDrinkThrowException(String orderInput) {
+            assertSimpleTest(() -> {
+                runException("25", orderInput);
+                assertThat(output()).contains(ONLY_DRINK_ORDER_NOT_ALLOWED);
             });
         }
     }
